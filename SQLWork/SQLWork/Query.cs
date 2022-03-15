@@ -472,7 +472,7 @@ namespace WorkSQL
             result = name_prop;
             Close();
          }
-         catch (Exception ex)
+         catch (Exception)
          {
             result = "Not property";
             Close();
@@ -507,7 +507,7 @@ namespace WorkSQL
             result = true;
             Close();
          }
-         catch (Exception ex)
+         catch (Exception)
          {
             string query = "USE " + name_base +
                            " EXEC sys.sp_updateextendedproperty" +

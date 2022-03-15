@@ -602,9 +602,8 @@ namespace WorkControl
                      {
                         row.Visible = false;
                      }
-                     catch(Exception ex)
+                     catch(Exception)
                      {
-
                      }
                   }
                   

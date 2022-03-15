@@ -80,13 +80,21 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SQLWork\SQLWork\SQLWork.csproj">
-      <Project>{e2666bfa-b7bf-48b9-afcf-976dc71d4173}</Project>
-      <Name>SQLWork</Name>
+    <ProjectReference Include="..\ExcelWork\WorkExcel.csproj">
+      <Project>{292ccbad-3951-488c-8ffa-0dd022a8d9ff}</Project>
+      <Name>WorkExcel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\StringWork\StringWork.csproj">
+    <ProjectReference Include="..\SQLTuneConnect\SQLTuneCon.csproj">
+      <Project>{b88bb2e8-7784-4a11-ac9b-0bde756b9b66}</Project>
+      <Name>SQLTuneCon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SQLWork\SQLWork\WorkSQL.csproj">
+      <Project>{e2666bfa-b7bf-48b9-afcf-976dc71d4173}</Project>
+      <Name>WorkSQL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StringWork\WorkString.csproj">
       <Project>{78b20c20-ac57-4dbd-9b63-947ebf1ec8d7}</Project>
-      <Name>StringWork</Name>
+      <Name>WorkString</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

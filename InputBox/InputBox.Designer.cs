@@ -1,5 +1,5 @@
 ﻿
-namespace Box
+namespace WorkBox
 {
   partial class InputBox
   {

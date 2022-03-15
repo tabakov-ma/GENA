@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B88BB2E8-7784-4A11-AC9B-0BDE756B9B66}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>SQLTuneConnect</RootNamespace>
-    <AssemblyName>SQLTuneConnect</AssemblyName>
+    <RootNamespace>SQLTuneCon</RootNamespace>
+    <AssemblyName>SQLTuneCon</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -46,16 +47,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SQLTuneCon.cs">
+    <Compile Include="AccessProp.cs" />
+    <Compile Include="TuneCon.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SQLTuneCon.Designer.cs">
-      <DependentUpon>SQLTuneCon.cs</DependentUpon>
+    <Compile Include="TuneCon.Designer.cs">
+      <DependentUpon>TuneCon.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="SQLTuneCon.resx">
-      <DependentUpon>SQLTuneCon.cs</DependentUpon>
+    <EmbeddedResource Include="TuneCon.resx">
+      <DependentUpon>TuneCon.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -65,6 +67,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include=".editorconfig" />
     <None Include="Properties\Settings.settings">
@@ -81,25 +84,29 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ControlWork\ControlWork.csproj">
+    <ProjectReference Include="..\ControlWork\WorkControl.csproj">
       <Project>{be52e256-e1d8-48e2-945b-ffcfcdb53ffe}</Project>
-      <Name>ControlWork</Name>
+      <Name>WorkControl</Name>
     </ProjectReference>
-    <ProjectReference Include="..\InputBox\Box.csproj">
+    <ProjectReference Include="..\ExcelWork\WorkExcel.csproj">
+      <Project>{292ccbad-3951-488c-8ffa-0dd022a8d9ff}</Project>
+      <Name>WorkExcel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\InputBox\WorkBox.csproj">
       <Project>{97d4704d-8ef1-467f-84c1-48ddce43b6f5}</Project>
-      <Name>Box</Name>
+      <Name>WorkBox</Name>
     </ProjectReference>
     <ProjectReference Include="..\Memory\ExchMemNET.csproj">
       <Project>{a01497be-d1b0-4e41-b428-54e23f84981d}</Project>
       <Name>ExchMemNET</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SQLWork\SQLWork\SQLWork.csproj">
+    <ProjectReference Include="..\SQLWork\SQLWork\WorkSQL.csproj">
       <Project>{e2666bfa-b7bf-48b9-afcf-976dc71d4173}</Project>
-      <Name>SQLWork</Name>
+      <Name>WorkSQL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\StringWork\StringWork.csproj">
+    <ProjectReference Include="..\StringWork\WorkString.csproj">
       <Project>{78b20c20-ac57-4dbd-9b63-947ebf1ec8d7}</Project>
-      <Name>StringWork</Name>
+      <Name>WorkString</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Box
+namespace WorkBox
 {
   public partial class InputBox : Form
   {

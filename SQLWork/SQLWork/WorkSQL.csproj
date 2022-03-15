@@ -44,12 +44,12 @@
   <ItemGroup>
     <Compile Include="Query.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StrConToEntity.cs" />
+    <Compile Include="Entity.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\StringWork\StringWork.csproj">
+    <ProjectReference Include="..\..\StringWork\WorkString.csproj">
       <Project>{78b20c20-ac57-4dbd-9b63-947ebf1ec8d7}</Project>
-      <Name>StringWork</Name>
+      <Name>WorkString</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

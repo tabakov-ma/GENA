@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SQLTuneConnect
+namespace SQLTuneCon
 {
   static class Program
   {
@@ -16,7 +16,7 @@ namespace SQLTuneConnect
     {
       Application.EnableVisualStyles();
       Application.SetCompatibleTextRenderingDefault(false);
-      Application.Run(new SQLTuneCon());
+      Application.Run(new TuneCon());
     }
   }
 }

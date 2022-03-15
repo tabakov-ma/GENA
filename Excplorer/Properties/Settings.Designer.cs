@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SQLTuneCon.Properties {
+namespace Explorer.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -25,73 +25,61 @@ namespace SQLTuneCon.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string StrConnect1 {
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int spc_H_sd {
             get {
-                return ((string)(this["StrConnect1"]));
+                return ((int)(this["spc_H_sd"]));
             }
             set {
-                this["StrConnect1"] = value;
+                this["spc_H_sd"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int spc_H2_H_sd {
+            get {
+                return ((int)(this["spc_H2_H_sd"]));
+            }
+            set {
+                this["spc_H2_H_sd"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int spc_H2_H1_V_sd {
+            get {
+                return ((int)(this["spc_H2_H1_V_sd"]));
+            }
+            set {
+                this["spc_H2_H1_V_sd"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int spc_H2_H1_V1_H_sd {
+            get {
+                return ((int)(this["spc_H2_H1_V1_H_sd"]));
+            }
+            set {
+                this["spc_H2_H1_V1_H_sd"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string StrConnect2 {
+        public string StrConnect {
             get {
-                return ((string)(this["StrConnect2"]));
+                return ((string)(this["StrConnect"]));
             }
             set {
-                this["StrConnect2"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string StrConnect3 {
-            get {
-                return ((string)(this["StrConnect3"]));
-            }
-            set {
-                this["StrConnect3"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string StrConnect4 {
-            get {
-                return ((string)(this["StrConnect4"]));
-            }
-            set {
-                this["StrConnect4"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string StrConnect5 {
-            get {
-                return ((string)(this["StrConnect5"]));
-            }
-            set {
-                this["StrConnect5"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string StrPatchCreateNewDB {
-            get {
-                return ((string)(this["StrPatchCreateNewDB"]));
-            }
-            set {
-                this["StrPatchCreateNewDB"] = value;
+                this["StrConnect"] = value;
             }
         }
         
@@ -116,6 +104,42 @@ namespace SQLTuneCon.Properties {
             }
             set {
                 this["Y"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Width {
+            get {
+                return ((int)(this["Width"]));
+            }
+            set {
+                this["Width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Height {
+            get {
+                return ((int)(this["Height"]));
+            }
+            set {
+                this["Height"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string strTuneTableColumn {
+            get {
+                return ((string)(this["strTuneTableColumn"]));
+            }
+            set {
+                this["strTuneTableColumn"] = value;
             }
         }
     }

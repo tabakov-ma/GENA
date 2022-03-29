@@ -25,6 +25,7 @@ namespace Explorer
       Query qObjects;
       //DataTable dtTypes;
       //DataTable dtObjects;
+      DataTable dataTable;
       OutBox OutBox = new OutBox();
       const int NOT_SELECT = -1;
       string StrConnect = "";
@@ -322,11 +323,9 @@ namespace Explorer
       {
 
       }
-
-      private void trvObjects_AfterSelect(object sender, TreeViewEventArgs e)
+      private void SafeChange()
       {
-         //if (e.Node.IsExpanded) { return; }
-         if(this.lblNamaTableDetail.Text.IndexOf("*")>=0)
+         if (this.lblNamaTableDetail.Text.IndexOf("*") >= 0)
          {
             DialogResult result =
                MessageBox.Show(text: "Данные были изменены, сохранить данные?",
@@ -337,19 +336,26 @@ namespace Explorer
             if (result == DialogResult.OK)
             {
                qObjects.SetDataTable();
+               lblNamaTableDetail.Text = lblNamaTableDetail.Text.Replace("*", "");
             }
          }
-         DataTable dataTable;
+      }
+      private void trvObjects_AfterSelect(object sender, TreeViewEventArgs e)
+      {
+         //if (e.Node.IsExpanded) { return; }
+         SafeChange();
+         //DataTable dataTable;
          if (e.Node.Parent == null)
          {
             Ctrl.Fill_TreeView_BD(ref trvObjects, ref qObjects, e.Node.Text, out dataTable);
-            tuneViewTable = new TuneViewTable(query: qObjects);
          }
          else
          {
             Ctrl.Fill_TreeView_Node(ref trvObjects, ref qObjects, e, out dataTable);
-            tuneViewTable = new TuneViewTable(query: qObjects);
          }
+         // Настройка таблицы
+         Query query = new Query(StrCon: qObjects.GetStrConnect());
+         tuneViewTable = new TuneViewTable(query: query);
 
          this.dgvObjectsDetails.Columns.Clear();
          this.dgvObjectsDetails.DataSource = dataTable;
@@ -364,7 +370,7 @@ namespace Explorer
 
       private void btnSafeChange_Click_1(object sender, EventArgs e)
       {
-         qObjects.SetDataTable();
+         SafeChange();
       }
 
       /// <summary>

@@ -22,7 +22,7 @@ namespace WorkSQL
       /// Объект для подключения
       /// </summary>
       private SqlConnection Connection;
-      private DataSet ds = new DataSet();
+      public DataSet ds = new DataSet();
       private SqlDataAdapter adapter;
 
       /// <summary>
@@ -190,6 +190,10 @@ namespace WorkSQL
             Close(); 
             return false; 
          }
+      }
+      public string GetStrConnect()
+      {
+         return StrConnect;
       }
 
       /// <summary>

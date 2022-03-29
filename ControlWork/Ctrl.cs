@@ -207,333 +207,371 @@ namespace WorkControl
 
          // Получение информации о выделенно узле
          string[] result = node_select.Node.FullPath.Split(new char[] { '\\' });
-         string obj_db = result[0];                    // База данных (Система)
-         string obj_parText = node_select.Node.Parent.Text; // Имя родителя
-         string obj_parType = node_select.Node.Parent.Tag?.ToString();// Тип родителя
+         string obj_db = result[0];                                    // База данных (Система)
+         string obj_parText = node_select.Node.Parent.Text;            // Имя родителя
+         string obj_parType = node_select.Node.Parent.Tag?.ToString(); // Тип родителя
          string obj_name = node_select.Node.Text;
          string obj_type = node_select.Node.Tag?.ToString();
 
          // Переключение на выбронную базу данных
          query.BaseName = obj_db;
-         // Проверка на ключевые слова в имени узла
-         if (obj_name == "Н/Д")
+         // Таблица с данными
+         data_table = new DataTable();
+         data_table.Namespace = "Objects";
+         // Проверить Выделенный Узел, входит ли в Список Объектов (входит в таблицу TypesObjects):
+         if (Str.IsObject(obj_name) > 0)
          {
-            return;
+            query.GetTable("Objects", ref data_table, /*select: "SELECT NAME, TYPE, ARRAY_SIZE, DESCRIPTION",*/ where: "WHERE NAME_TYPE = '" + obj_name + "'", order_by: "NAME");
          }
+         else // Базовый тип
+         {
+            query.GetTable("Objects", ref data_table, /*select: "SELECT NAME, TYPE, ARRAY_SIZE, DESCRIPTION",*/ where: "WHERE NAME_TYPE = '" + obj_parText + "' AND NAME = '" + obj_name + "'");
+         }
+         foreach (DataRow row in data_table.Rows)
+         {
+            string type_name = row["TYPE"].ToString();
+            treeNode = new TreeNode(row["NAME"].ToString());
+            treeNode.Tag = type_name;
+            treeNode.ToolTipText = row["DESCRIPTION"].ToString();
+            // Если тип входит в СО добавить вложенный пустой узел;
+            if ( Str.IsObject(type_name) > 0 )
+            {
+               treeNode.Nodes.Add("");
+            }
+            if ( data_table.Rows.Count > 1 & treeNode.Text != "")
+            {
+               node_select.Node.Nodes.Add(treeNode);
+            }
+         }
+         return;
+      }
+
+         // Проверка на ключевые слова в имени узла
+         //if (obj_name == "Н/Д")
+         //{
+         //   return;
+         //}
 
          // Проверка выделенного узла на массив
          // Является массивом
-         if (Str.IsArray(obj_name) == 1)
-         {
-            int start; int end = Str.GetArraySizeFromStr(obj_name, out start);
-            if (start > end) { MessageBox.Show("У узла с именем массива начало > конца массива!"); return; }
-            for (int num = start; num <= end; num++)
-            {
-               treeNode = new TreeNode(Str.GetNameArray(obj_name) + "[" + num + "]");
-               // Проверяем имя родителя
-               if (Str.IsObject(obj_type) > 0)
-               {
-                  treeNode.Tag = null; // Объект
-               }
-               else
-               {
-                  treeNode.Tag = Str.GetNameArray(obj_type);
-                  DataTable dataTable = new DataTable();
-                  dataTable.Namespace = "TypesObjects";
-                  query.GetTable("TypesObjects", ref dataTable, /*select: "SELECT DESCRIPTION",*/ where: "WHERE NAME = '" + Str.GetNameArray(obj_type) + "'", order_by: "NAME");
-                  data_table = dataTable;
-                  if (dataTable.Rows.Count == 0)
-                  {
-                     treeNode.ToolTipText = "Базовый тип";
-                  }
-                  else
-                  {
-                     treeNode.ToolTipText = dataTable.Rows[0]["DESCRIPTION"].ToString();
-                  }
-               }
-               treeNode.Nodes.Add("");
-               node_select.Node.Nodes.Add(treeNode);
-            }
-            return;
-         }
-         // Является элементом массива
-         else if (Str.IsArray(obj_name) == 2)
-         {
-            // Если объект
-            if (Str.IsObject(obj_type) > 0)
-            {
-               DataTable dataTable = new DataTable();
-               dataTable.Namespace = "Objects";
-               query.GetTable("Objects", ref dataTable, /*select: "SELECT NAME, TYPE, DESCRIPTION",*/ where: "WHERE NAME_TYPE = '" + obj_type + "'", order_by: "NAME");
-               data_table = dataTable;
-               if (dataTable.Rows.Count == 0)
-               {
-                  treeNode = new TreeNode("Н/Д");
-                  treeNode.ToolTipText = "В таблице 'Objects' нет данных с типом " + obj_type;
-                  node_select.Node.Nodes.Add(treeNode);
-                  return;
-               }
-               else
-               {
-                  foreach (DataRow row in dataTable.Rows)
-                  {
-                     treeNode = new TreeNode(row["NAME"].ToString());
-                     treeNode.Tag = row["TYPE"];
-                     treeNode.Nodes.Add("");
-                     treeNode.ToolTipText = row["DESCRIPTION"].ToString();
-                     node_select.Node.Nodes.Add(treeNode);
-                  }
-                  return;
-               }
-            }
-            // Если базовый тип
-            else
-            {
-               treeNode = new TreeNode(obj_type);
-               treeNode.ToolTipText = "Базовый тип";
-               node_select.Node.Nodes.Add(treeNode);
-               return;
-            }
-         }
-         // Является не массивом
-         else if (Str.IsArray(obj_name) == 0)
-         {
-            int num;
-            if (obj_type == "@END@")
-            {
-               return;
-            }
-            else if (int.TryParse(obj_type, out num) || obj_type == null || obj_type == "" || Str.IsObject(obj_type) > 0) // Объект
-            {
-               DataTable dataTable = new DataTable();
-               dataTable.Namespace = "Objects";
-               query.GetTable("Objects", ref dataTable, /*select: "SELECT NAME, TYPE, ARRAY_SIZE, DESCRIPTION",*/ where: "WHERE NAME_TYPE = '" + obj_name + "'", order_by: "NAME");
-               data_table = dataTable;
-               if (dataTable.Rows.Count == 0)
-               {
-                  treeNode = new TreeNode("Н/Д");
-                  treeNode.ToolTipText = "В таблице 'Objects' нет данных с типом " + obj_type;
-                  node_select.Node.Nodes.Add(treeNode);
-                  return;
-               }
-               else
-               {
-                  foreach (DataRow row in dataTable.Rows)
-                  {
-                     if (row["NAME"].ToString() == "" || row["NAME"] == null)
-                     {
-                        continue;
-                     }
-                     if (Str.IsArray(row["TYPE"].ToString()) == 3)
-                     {
-                        int start = 0;
-                        int end = int.Parse(row["ARRAY_SIZE"].ToString());
-                        if (Str.IsObject(Str.GetNameArray((row["TYPE"].ToString()))) == 1)
-                        {
-                           start = 1;
-                        }
-                        treeNode = new TreeNode(row["NAME"].ToString() + "[" + start + ".." + end + "]");
-                        treeNode.Tag = row["TYPE"];
-                        treeNode.Nodes.Add("");
-                        treeNode.ToolTipText = row["DESCRIPTION"].ToString();
-                        node_select.Node.Nodes.Add(treeNode);
-                     }
-                     else
-                     {
-                        treeNode = new TreeNode(row["NAME"].ToString());
-                        treeNode.Tag = row["TYPE"];
-                        treeNode.Nodes.Add("");
-                        treeNode.ToolTipText = row["DESCRIPTION"].ToString();
-                        node_select.Node.Nodes.Add(treeNode);
-                     }
-                  }
-                  return;
-               }
-            }
-            else // Базовый тип
-            {
-               // Добавляем данные из тега (тип)
-               treeNode = new TreeNode(obj_type);
-               treeNode.Tag = "@END@";
-               treeNode.ToolTipText = "Базовый тип";
-               node_select.Node.Nodes.Add(treeNode);
-            }
-         }
-      }
+         //if (Str.IsArray(obj_name) == 1)
+         //{
+         //   int start; int end = Str.GetArraySizeFromStr(obj_name, out start);
+         //   if (start > end) { MessageBox.Show("У узла с именем массива начало > конца массива!"); return; }
+         //   for (int num = start; num <= end; num++)
+         //   {
+         //      treeNode = new TreeNode(Str.GetNameArray(obj_name) + "[" + num + "]");
+         //      // Проверяем имя родителя
+         //      if (Str.IsObject(obj_type) > 0)
+         //      {
+         //         treeNode.Tag = null; // Объект
+         //      }
+         //      else
+         //      {
+         //         treeNode.Tag = Str.GetNameArray(obj_type);
+         //         DataTable dataTable = new DataTable();
+         //         dataTable.Namespace = "TypesObjects";
+         //         query.GetTable("TypesObjects", ref dataTable, /*select: "SELECT DESCRIPTION",*/ where: "WHERE NAME = '" + Str.GetNameArray(obj_type) + "'", order_by: "NAME");
+         //         data_table = dataTable;
+         //         if (dataTable.Rows.Count == 0)
+         //         {
+         //            treeNode.ToolTipText = "Базовый тип";
+         //         }
+         //         else
+         //         {
+         //            treeNode.ToolTipText = dataTable.Rows[0]["DESCRIPTION"].ToString();
+         //         }
+         //      }
+         //      treeNode.Nodes.Add("");
+         //      node_select.Node.Nodes.Add(treeNode);
+         //   }
+         //   return;
+         //}
 
-      public static void FillTreeViewNode(ref TreeView treeView, Query query, TreeViewCancelEventArgs node_select)
-      {
-         // Очистка выделенного узла (от вложенных узлов)
-         node_select.Node.Nodes.Clear();
+         //// Является элементом массива
+         //else if (Str.IsArray(obj_name) == 2)
+         //{
+         //   // Если объект
+         //   if (Str.IsObject(obj_type) > 0)
+         //   {
+         //      DataTable dataTable = new DataTable();
+         //      dataTable.Namespace = "Objects";
+         //      query.GetTable("Objects", ref dataTable, /*select: "SELECT NAME, TYPE, DESCRIPTION",*/ where: "WHERE NAME_TYPE = '" + obj_type + "'", order_by: "NAME");
+         //      data_table = dataTable;
+         //      if (dataTable.Rows.Count == 0)
+         //      {
+         //         treeNode = new TreeNode("Н/Д");
+         //         treeNode.ToolTipText = "В таблице 'Objects' нет данных с типом " + obj_type;
+         //         node_select.Node.Nodes.Add(treeNode);
+         //         return;
+         //      }
+         //      else
+         //      {
+         //         foreach (DataRow row in dataTable.Rows)
+         //         {
+         //            treeNode = new TreeNode(row["NAME"].ToString());
+         //            treeNode.Tag = row["TYPE"];
+         //            treeNode.Nodes.Add("");
+         //            treeNode.ToolTipText = row["DESCRIPTION"].ToString();
+         //            node_select.Node.Nodes.Add(treeNode);
+         //         }
+         //         return;
+         //      }
+         //   }
+         //   // Если базовый тип
+         //   else
+         //   {
+         //      treeNode = new TreeNode(obj_type);
+         //      treeNode.ToolTipText = "Базовый тип";
+         //      node_select.Node.Nodes.Add(treeNode);
+         //      return;
+         //   }
+         //}
+         //// Является не массивом
+         //else if (Str.IsArray(obj_name) == 0)
+         //{
+         //   int num;
+         //   if (obj_type == "@END@")
+         //   {
+         //      return;
+         //   }
+         //   else if (int.TryParse(obj_type, out num) || obj_type == null || obj_type == "" || Str.IsObject(obj_type) > 0) // Объект
+         //   {
+         //DataTable dataTable = new DataTable();
+         //dataTable.Namespace = "Objects";
+         //query.GetTable("Objects", ref dataTable, /*select: "SELECT NAME, TYPE, ARRAY_SIZE, DESCRIPTION",*/ where: "WHERE NAME_TYPE = '" + obj_name + "'", order_by: "NAME");
+         //data_table = dataTable;
+         //      if (dataTable.Rows.Count == 0)
+         //      {
+         //         treeNode = new TreeNode("Н/Д");
+         //         treeNode.ToolTipText = "В таблице 'Objects' нет данных с типом " + obj_type;
+         //         node_select.Node.Nodes.Add(treeNode);
+         //         return;
+         //      }
+         //      else
+         //      {
+         //         foreach (DataRow row in dataTable.Rows)
+         //         {
+         //            if (row["NAME"].ToString() == "" || row["NAME"] == null)
+         //            {
+         //               continue;
+         //            }
+         //            if (Str.IsArray(row["TYPE"].ToString()) == 3)
+         //            {
+         //               int start = 0;
+         //               int end = int.Parse(row["ARRAY_SIZE"].ToString());
+         //               if (Str.IsObject(Str.GetNameArray((row["TYPE"].ToString()))) == 1)
+         //               {
+         //                  start = 1;
+         //               }
+         //               treeNode = new TreeNode(row["NAME"].ToString() + "[" + start + ".." + end + "]");
+         //               treeNode.Tag = row["TYPE"];
+         //               treeNode.Nodes.Add("");
+         //               treeNode.ToolTipText = row["DESCRIPTION"].ToString();
+         //               node_select.Node.Nodes.Add(treeNode);
+         //            }
+         //            else
+         //            {
+         //               treeNode = new TreeNode(row["NAME"].ToString());
+         //               treeNode.Tag = row["TYPE"];
+         //               treeNode.Nodes.Add("");
+         //               treeNode.ToolTipText = row["DESCRIPTION"].ToString();
+         //               node_select.Node.Nodes.Add(treeNode);
+         //            }
+         //         }
+         //         return;
+         //      }
+         //   }
+         //   else // Базовый тип
+         //   {
+         //      // Добавляем данные из тега (тип)
+         //      treeNode = new TreeNode(obj_type);
+         //      treeNode.Tag = "@END@";
+         //      treeNode.ToolTipText = "Базовый тип";
+         //      node_select.Node.Nodes.Add(treeNode);
+         //   }
+         //}
+      
 
-         // Получение от TreeView полного пути расположения выделенного узла (Система/Родительский узел/Выделенный узел)
-         string[] result = node_select.Node.FullPath.Split(new char[] { '\\' });
-         string obj_db = result[0];               // Система
-         string obj_parent = result[0];
-         if (result.Length > 2)
-            obj_parent = result[result.Length - 2]; // Родительский узел
-         string obj_name = node_select.Node.Text; // Выделенный узел
-         string obj_type = node_select.Node.Tag?.ToString();
-         DataTable data;   // Таблица с полученными данными
+      //public static void FillTreeViewNode(ref TreeView treeView, Query query, TreeViewCancelEventArgs node_select)
+      //{
+      //   // Очистка выделенного узла (от вложенных узлов)
+      //   node_select.Node.Nodes.Clear();
 
-         int ARRAY_SIZE = 0; int ARRAY_START = 0;
-         //Проверка выделенного узла на массив([..])
-         if (Str.IsArray(obj_name) != 0)
-         {
-            result = obj_name.Split(new char[] { '[' });
-            // Если узел является массивом
-            if (Str.IsArray(obj_name) == 1)
-            {
-               // - инициализация переменной массива размером
-               ARRAY_SIZE = Str.GetArraySizeFromStr(obj_name, out ARRAY_START);
-            }
-            // Если узел является элементом массива
-            else if (Str.IsArray(obj_name) == 2)
-            {
-               // - То нужно определить тип родителя
-               TreeNode node = new TreeNode(Str.GetStrWithoutSepar(obj_parent));
-               data = new DataTable();
-               query.GetTable("TypesObjects", ref data, where: "WHERE NAME_TYPE = '" + node.Text + "'");
-               // - добавляем пустой узел если есть данные по новому узлу
-               if (data.Rows.Count > 0)
-                  node.Nodes.Add("");
-               node_select.Node.Nodes.Add(node);
-               return;
-            }
-            // Чтение таблицы Objects запросом по выделенному узлу 
-            data = new DataTable();
-            query.GetTable("Objects", ref data, where: "NAME_TYPE = '" + obj_name + "'", order_by: "NAME");
-            // Данных нет
-            if (data.Rows.Count == 0)
-            {
-               // Если не массив
-               if (ARRAY_SIZE == 0)
-               {
-                  return;
-               }
-               //Если массмв
-               else
-               {
-                  // Добавляем узлы с 1-го по количество элементов [..] c вложенным пустым узлом
-                  for (int i = 1; i <= ARRAY_SIZE; i++)
-                  {
-                     TreeNode node = new TreeNode("[" + i.ToString() + "]");
-                     node.Nodes.Add("");
-                     node_select.Node.Nodes.Add(node);
-                  }
-                  return;
+      //   // Получение от TreeView полного пути расположения выделенного узла (Система/Родительский узел/Выделенный узел)
+      //   string[] result = node_select.Node.FullPath.Split(new char[] { '\\' });
+      //   string obj_db = result[0];               // Система
+      //   string obj_parent = result[0];
+      //   if (result.Length > 2)
+      //      obj_parent = result[result.Length - 2]; // Родительский узел
+      //   string obj_name = node_select.Node.Text; // Выделенный узел
+      //   string obj_type = node_select.Node.Tag?.ToString();
+      //   DataTable data;   // Таблица с полученными данными
 
-               }
-            }
-            // Данные есть
-            else
-            {
-               // Циклом проходим по всем строкам
-               foreach (DataRow row in data.Rows)
-               {
-                  // Проверяем тип 'TYPE'
-                  // Если массив
-                  string type = row["TYPE"]?.ToString();
-                  if (Str.IsArray(type) == 3)
-                  {
-                     ARRAY_SIZE = 0;
-                     int.TryParse(row["ARRAY_SIZE"].ToString(), out ARRAY_SIZE);
-                     TreeNode node = new TreeNode(Str.GetStrWithoutSepar(type) + "[" + ARRAY_SIZE.ToString() + "]");
-                     for (int i = 1; i <= ARRAY_SIZE; i++)
-                     {
-                        node.Nodes.Add("[" + i.ToString() + "]");
-                     }
-                  }
-                  //  Если не массив
-                  else
-                  {
-                     // Чтение таблицы Objects запросом по текущему типу (WHERE NAME_TYPE = 'текущий тип');
-                     DataTable data2 = new DataTable();
-                     query.GetTable("Objects", ref data2, where: "NAME_TYPE = '" + type + "'", order_by: "NAME");
-                     TreeNode node;
-                     // Данных нет
-                     if (data2.Rows.Count == 0)
-                     {
-                        // Добавляем узел с именим текущего типа без вложенных узлов
-                        node = new TreeNode(type);
-                     }
-                     // Данные есть
-                     else
-                     {
-                        // Добавляем узел с именем текущего типа с одним пустым вложенным узлом
-                        node = new TreeNode(type);
-                        node.Nodes.Add("");
-                     }
-                     node_select.Node.Nodes.Add(node);
-                     return;
-                  }
-               }
-            }
+      //   int ARRAY_SIZE = 0; int ARRAY_START = 0;
+      //   //Проверка выделенного узла на массив([..])
+      //   if (Str.IsArray(obj_name) != 0)
+      //   {
+      //      result = obj_name.Split(new char[] { '[' });
+      //      // Если узел является массивом
+      //      if (Str.IsArray(obj_name) == 1)
+      //      {
+      //         // - инициализация переменной массива размером
+      //         ARRAY_SIZE = Str.GetArraySizeFromStr(obj_name, out ARRAY_START);
+      //      }
+      //      // Если узел является элементом массива
+      //      else if (Str.IsArray(obj_name) == 2)
+      //      {
+      //         // - То нужно определить тип родителя
+      //         TreeNode node = new TreeNode(Str.GetStrWithoutSepar(obj_parent));
+      //         data = new DataTable();
+      //         query.GetTable("TypesObjects", ref data, where: "WHERE NAME_TYPE = '" + node.Text + "'");
+      //         // - добавляем пустой узел если есть данные по новому узлу
+      //         if (data.Rows.Count > 0)
+      //            node.Nodes.Add("");
+      //         node_select.Node.Nodes.Add(node);
+      //         return;
+      //      }
+      //      // Чтение таблицы Objects запросом по выделенному узлу 
+      //      data = new DataTable();
+      //      query.GetTable("Objects", ref data, where: "NAME_TYPE = '" + obj_name + "'", order_by: "NAME");
+      //      // Данных нет
+      //      if (data.Rows.Count == 0)
+      //      {
+      //         // Если не массив
+      //         if (ARRAY_SIZE == 0)
+      //         {
+      //            return;
+      //         }
+      //         //Если массмв
+      //         else
+      //         {
+      //            // Добавляем узлы с 1-го по количество элементов [..] c вложенным пустым узлом
+      //            for (int i = 1; i <= ARRAY_SIZE; i++)
+      //            {
+      //               TreeNode node = new TreeNode("[" + i.ToString() + "]");
+      //               node.Nodes.Add("");
+      //               node_select.Node.Nodes.Add(node);
+      //            }
+      //            return;
 
-         }
+      //         }
+      //      }
+      //      // Данные есть
+      //      else
+      //      {
+      //         // Циклом проходим по всем строкам
+      //         foreach (DataRow row in data.Rows)
+      //         {
+      //            // Проверяем тип 'TYPE'
+      //            // Если массив
+      //            string type = row["TYPE"]?.ToString();
+      //            if (Str.IsArray(type) == 3)
+      //            {
+      //               ARRAY_SIZE = 0;
+      //               int.TryParse(row["ARRAY_SIZE"].ToString(), out ARRAY_SIZE);
+      //               TreeNode node = new TreeNode(Str.GetStrWithoutSepar(type) + "[" + ARRAY_SIZE.ToString() + "]");
+      //               for (int i = 1; i <= ARRAY_SIZE; i++)
+      //               {
+      //                  node.Nodes.Add("[" + i.ToString() + "]");
+      //               }
+      //            }
+      //            //  Если не массив
+      //            else
+      //            {
+      //               // Чтение таблицы Objects запросом по текущему типу (WHERE NAME_TYPE = 'текущий тип');
+      //               DataTable data2 = new DataTable();
+      //               query.GetTable("Objects", ref data2, where: "NAME_TYPE = '" + type + "'", order_by: "NAME");
+      //               TreeNode node;
+      //               // Данных нет
+      //               if (data2.Rows.Count == 0)
+      //               {
+      //                  // Добавляем узел с именим текущего типа без вложенных узлов
+      //                  node = new TreeNode(type);
+      //               }
+      //               // Данные есть
+      //               else
+      //               {
+      //                  // Добавляем узел с именем текущего типа с одним пустым вложенным узлом
+      //                  node = new TreeNode(type);
+      //                  node.Nodes.Add("");
+      //               }
+      //               node_select.Node.Nodes.Add(node);
+      //               return;
+      //            }
+      //         }
+      //      }
 
-         // Запрашиваем данные
-         // Если нет типа, то объект 1-го уровня системы
-         if (obj_type == null)
-         {
-            DataTable dtObjects = new DataTable();
-            if (!query.GetTable(nameTable: "Objects", table: ref dtObjects, nameBase: obj_db, where: "WHERE NAME_TYPE = '" + obj_name + "'", order_by: "NAME")) return;
-            TreeNode treeNode = node_select.Node;
-            if (dtObjects.Rows.Count > 0)
-               FillNode(dtObjects, ref treeNode);
-            else
-               treeNode.Nodes.Add(obj_type);
+      //   }
+
+      //   // Запрашиваем данные
+      //   // Если нет типа, то объект 1-го уровня системы
+      //   if (obj_type == null)
+      //   {
+      //      DataTable dtObjects = new DataTable();
+      //      if (!query.GetTable(nameTable: "Objects", table: ref dtObjects, nameBase: obj_db, where: "WHERE NAME_TYPE = '" + obj_name + "'", order_by: "NAME")) return;
+      //      TreeNode treeNode = node_select.Node;
+      //      if (dtObjects.Rows.Count > 0)
+      //         FillNode(dtObjects, ref treeNode);
+      //      else
+      //         treeNode.Nodes.Add(obj_type);
 
 
-         }
-      }
-      private static void FillNode(DataTable dtObjects, ref TreeNode node_root)
-      {
-         //DataTable dtObjects = new DataTable();
-         //if (!query.GetTable(nameTable: obj_table, table: ref dtObjects, name_base: obj_db, expression: "NAME_TYPE = '" + obj_root + "'", name_column_sort: "NAME")) return node_root;
-         foreach (DataRow row in dtObjects.Rows)
-         {
-            // Проверяем тип
-            // Если массив, то добавляем к имени узла [размер]
-            TreeNode node = new TreeNode(row["NAME"].ToString());
-            if (node.Text == "") continue;
-            int array_size = 0;
-            if (row["TYPE"].ToString().IndexOf('[') > 0)
-            {
-               node.Tag = row["TYPE"].ToString().Replace("[]", "");
-               array_size = int.Parse(row["ARRAY_SIZE"].ToString());
-               //node_root = new TreeNode(row["NAME"].ToString() + "[" + array_size.ToString() + "]");
-               for (int i = 0; i <= array_size; i++)
-               {
-                  TreeNode node_next = new TreeNode(row["NAME"].ToString() + "[" + (i + 1).ToString() + "]");
-                  node_next.Tag = row["TYPE"].ToString().Replace("[]", "");
-                  if (node_next.Text == "") continue;
-                  node.Nodes.Add(node_next);
-               }
-            }
-            else
-            {
-               TreeNode node_next = new TreeNode(row["TYPE"].ToString());
-               node_root.Tag = row["TYPE"].ToString();
-               if (node_next.Text == "") continue;
-               node.Nodes.Add(node_next);
-            }
-            node_root.Nodes.Add(node);
-         }
+      //   }
+      //}
+      //private static void FillNode(DataTable dtObjects, ref TreeNode node_root)
+      //{
+      //   //DataTable dtObjects = new DataTable();
+      //   //if (!query.GetTable(nameTable: obj_table, table: ref dtObjects, name_base: obj_db, expression: "NAME_TYPE = '" + obj_root + "'", name_column_sort: "NAME")) return node_root;
+      //   foreach (DataRow row in dtObjects.Rows)
+      //   {
+      //      // Проверяем тип
+      //      // Если массив, то добавляем к имени узла [размер]
+      //      TreeNode node = new TreeNode(row["NAME"].ToString());
+      //      if (node.Text == "") continue;
+      //      int array_size = 0;
+      //      if (row["TYPE"].ToString().IndexOf('[') > 0)
+      //      {
+      //         node.Tag = row["TYPE"].ToString().Replace("[]", "");
+      //         array_size = int.Parse(row["ARRAY_SIZE"].ToString());
+      //         //node_root = new TreeNode(row["NAME"].ToString() + "[" + array_size.ToString() + "]");
+      //         for (int i = 0; i <= array_size; i++)
+      //         {
+      //            TreeNode node_next = new TreeNode(row["NAME"].ToString() + "[" + (i + 1).ToString() + "]");
+      //            node_next.Tag = row["TYPE"].ToString().Replace("[]", "");
+      //            if (node_next.Text == "") continue;
+      //            node.Nodes.Add(node_next);
+      //         }
+      //      }
+      //      else
+      //      {
+      //         TreeNode node_next = new TreeNode(row["TYPE"].ToString());
+      //         node_root.Tag = row["TYPE"].ToString();
+      //         if (node_next.Text == "") continue;
+      //         node.Nodes.Add(node_next);
+      //      }
+      //      node_root.Nodes.Add(node);
+      //   }
 
-      }
-      private void FillTreeNode(TreeNode node, List<string> data)
-      {
-         try
-         {
-            foreach (string el_data in data)
-            {
-               TreeNode add_node = new TreeNode(el_data);
-               node.Nodes.Add(add_node);
-            }
-         }
-         catch (Exception ex) { MessageBox.Show(ex.Message); }
-      }
+      //}
+      //private void FillTreeNode(TreeNode node, List<string> data)
+      //{
+      //   try
+      //   {
+      //      foreach (string el_data in data)
+      //      {
+      //         TreeNode add_node = new TreeNode(el_data);
+      //         node.Nodes.Add(add_node);
+      //      }
+      //   }
+      //   catch (Exception ex) { MessageBox.Show(ex.Message); }
+      //}
+
+      /// <summary>
+      /// Получение списка ComboBox из коллекции controls
+      /// </summary>
+      /// <param name="controls"></param>
+      /// <returns></returns>
       public static List<ComboBox> GetComboBoxs(Control.ControlCollection controls)
       {
          List<ComboBox> lstCbx = new List<ComboBox>();
@@ -544,6 +582,12 @@ namespace WorkControl
          }
          return lstCbx;
       }
+
+      /// <summary>
+      /// Получение списка TextoBox из коллекции controls
+      /// </summary>
+      /// <param name="controls"></param>
+      /// <returns></returns>
       public static List<TextBox> GetTextBoxs(Control.ControlCollection controls)
       {
          List<TextBox> lstTbx = new List<TextBox>();
@@ -555,6 +599,11 @@ namespace WorkControl
          return lstTbx;
       }
 
+      /// <summary>
+      /// Очищение элементов в коллекции элементов
+      /// </summary>
+      /// <param name="controls"></param>
+      /// <returns></returns>
       public static bool Clear(Control.ControlCollection controls)
       {
          bool result = false;

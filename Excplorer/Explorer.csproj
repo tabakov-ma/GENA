@@ -7,7 +7,7 @@
     <ProjectGuid>{A6BF9826-A178-4AB0-9E1E-B2AF5D8FE630}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Explorer</RootNamespace>
-    <AssemblyName>Excplorer</AssemblyName>
+    <AssemblyName>Explorer</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

@@ -66,7 +66,7 @@ namespace SQLTuneCon
          StrConnect = entity.ToString();
 
          sql = new Query(StrConnect);
-         sql.TestCon();
+         sql.asyncTestCon();
 
          btnTest.Enabled = false;
          timConnect.Enabled = true;
@@ -296,7 +296,7 @@ namespace SQLTuneCon
          //                     MessageBoxDefaultButton.Button2);
          if (result == DialogResult.Cancel) return;
          if (sql is null) { MessageBox.Show("Необходимо проверить подключение к БД!"); return; }
-         if(!sql.DeleteDB(tbxNameNewDB.Text)) return;
+         if(!sql.DelDB(tbxNameNewDB.Text)) return;
          MessageBox.Show("БД " + tbxNameNewDB.Text + " удалена.", "Удаление БД");
       }
 
@@ -320,7 +320,7 @@ namespace SQLTuneCon
                outBox.ShowDialog("Нет подключения к БД!", "Предупреждение", true);
                return;
             }
-            sql.DeleteTable(tbxCurNameTbl.Text);
+            sql.DelTable(tbxCurNameTbl.Text);
          }
       }
 
@@ -358,61 +358,61 @@ namespace SQLTuneCon
                                                          "UDT"}))return;
             // Наполнение таблицы объектов
             DataTable DT = new DataTable();
-            if(!sql.GetTable(TableName, ref DT)) return;
+            if(!sql.GetTable(TableName, out DT)) return;
             {
                DT.Rows.Add(
-               sql.SetDataRow(DT.NewRow(), new string[] { "Exch", "0", "АРМ или Панели оператора", "Yes", "Yes", "", "Yes", "Yes" }));
+               Ctrl.SetDataRow(DT.NewRow(), new string[] { "Exch", "0", "АРМ или Панели оператора", "Yes", "Yes", "", "Yes", "Yes" }));
                DT.Rows.Add(
-               sql.SetDataRow(DT.NewRow(), new string[] { "Eng", "4", "Электродвигатели/клапана", "Yes", "Yes", "Yes", "Yes", "Yes", "40000" }));
+               Ctrl.SetDataRow(DT.NewRow(), new string[] { "Eng", "4", "Электродвигатели/клапана", "Yes", "Yes", "Yes", "Yes", "Yes", "40000" }));
                DT.Rows.Add(
-               sql.SetDataRow(DT.NewRow(), new string[] { "Dos", "7", "Дискретныe выходные сигналы", "Yes", "Yes", "Yes", "Yes", "Yes", "41100" }));
+               Ctrl.SetDataRow(DT.NewRow(), new string[] { "Dos", "7", "Дискретныe выходные сигналы", "Yes", "Yes", "Yes", "Yes", "Yes", "41100" }));
                DT.Rows.Add(
-               sql.SetDataRow(DT.NewRow(), new string[] { "Dis", "2", "Дискретныe входные сигналы", "Yes", "Yes", "Yes", "Yes", "Yes", "41500" }));
+               Ctrl.SetDataRow(DT.NewRow(), new string[] { "Dis", "2", "Дискретныe входные сигналы", "Yes", "Yes", "Yes", "Yes", "Yes", "41500" }));
                DT.Rows.Add(
-               sql.SetDataRow(DT.NewRow(), new string[] { "Ana", "1", "Аналоговые сигналы", "Yes", "Yes", "Yes", "Yes", "Yes", "42000" }));
+               Ctrl.SetDataRow(DT.NewRow(), new string[] { "Ana", "1", "Аналоговые сигналы", "Yes", "Yes", "Yes", "Yes", "Yes", "42000" }));
                DT.Rows.Add(
-               sql.SetDataRow(DT.NewRow(), new string[] { "stBindAddr", "", "Структура", "", "Yes" }));
+               Ctrl.SetDataRow(DT.NewRow(), new string[] { "stBindAddr", "", "Структура", "", "Yes" }));
                DT.Rows.Add(
-               sql.SetDataRow(DT.NewRow(), new string[] { "FT_trig", "", "Тригер положительный", "Yes" }));
+               Ctrl.SetDataRow(DT.NewRow(), new string[] { "FT_trig", "", "Тригер положительный", "Yes" }));
                DT.Rows.Add(
-               sql.SetDataRow(DT.NewRow(), new string[] { "RT_trig", "", "Тригер отрецательный", "Yes" }));
+               Ctrl.SetDataRow(DT.NewRow(), new string[] { "RT_trig", "", "Тригер отрецательный", "Yes" }));
                DT.Rows.Add(
-               sql.SetDataRow(DT.NewRow(), new string[] { "MB_Request", "", "ModBus запросы", "Yes" }));
+               Ctrl.SetDataRow(DT.NewRow(), new string[] { "MB_Request", "", "ModBus запросы", "Yes" }));
                DT.Rows.Add(
-               sql.SetDataRow(DT.NewRow(), new string[] { "Mdl", "3", "Модули ввода/вывода", "Yes", "Yes", "", "Yes", "", "46000" }));
+               Ctrl.SetDataRow(DT.NewRow(), new string[] { "Mdl", "3", "Модули ввода/вывода", "Yes", "Yes", "", "Yes", "", "46000" }));
                DT.Rows.Add(
-               sql.SetDataRow(DT.NewRow(), new string[] { "MsgH", "", "Сообщения", "Yes", "", "", "Yes" }));
+               Ctrl.SetDataRow(DT.NewRow(), new string[] { "MsgH", "", "Сообщения", "Yes", "", "", "Yes" }));
                DT.Rows.Add(
-               sql.SetDataRow(DT.NewRow(), new string[] { "Pln", "8", "Система управления установкой", "Yes", "Yes", "", "Yes", "", "46100" }));
+               Ctrl.SetDataRow(DT.NewRow(), new string[] { "Pln", "8", "Система управления установкой", "Yes", "Yes", "", "Yes", "", "46100" }));
                DT.Rows.Add(
-               sql.SetDataRow(DT.NewRow(), new string[] { "Reg", "6", "Контуры ПИД-регулирования", "Yes", "Yes", "", "Yes", "Yes" }));
+               Ctrl.SetDataRow(DT.NewRow(), new string[] { "Reg", "6", "Контуры ПИД-регулирования", "Yes", "Yes", "", "Yes", "Yes" }));
                DT.Rows.Add(
-               sql.SetDataRow(DT.NewRow(), new string[] { "Timer_Tof", "", "Таймер на выключение", "Yes" }));
+               Ctrl.SetDataRow(DT.NewRow(), new string[] { "Timer_Tof", "", "Таймер на выключение", "Yes" }));
                DT.Rows.Add(
-               sql.SetDataRow(DT.NewRow(), new string[] { "Timer_Ton", "", "Таймер на включение", "Yes" }));
+               Ctrl.SetDataRow(DT.NewRow(), new string[] { "Timer_Ton", "", "Таймер на включение", "Yes" }));
                DT.Rows.Add(
-               sql.SetDataRow(DT.NewRow(), new string[] { "Vlv", "5", "Электроприводные задвижки", "Yes", "Yes", "Yes", "Yes", "Yes" }));
+               Ctrl.SetDataRow(DT.NewRow(), new string[] { "Vlv", "5", "Электроприводные задвижки", "Yes", "Yes", "Yes", "Yes", "Yes" }));
                DT.Rows.Add(
-               sql.SetDataRow(DT.NewRow(), new string[] { "BoolarAny", "", "", "Yes" }));
+               Ctrl.SetDataRow(DT.NewRow(), new string[] { "BoolarAny", "", "", "Yes" }));
                DT.Rows.Add(
-               sql.SetDataRow(DT.NewRow(), new string[] { "Oth", "9", "Прочие теги", "Yes", "Yes", "", "Yes" }));
+               Ctrl.SetDataRow(DT.NewRow(), new string[] { "Oth", "9", "Прочие теги", "Yes", "Yes", "", "Yes" }));
                DT.Rows.Add(
-               sql.SetDataRow(DT.NewRow(), new string[] { "DateTime", "", "Дата и время", "Yes" }));
+               Ctrl.SetDataRow(DT.NewRow(), new string[] { "DateTime", "", "Дата и время", "Yes" }));
                DT.Rows.Add(
-               sql.SetDataRow(DT.NewRow(), new string[] { "Zon", "9", "Зоны пожаротушения", "Yes", "Yes", "", "Yes" }));
+               Ctrl.SetDataRow(DT.NewRow(), new string[] { "Zon", "9", "Зоны пожаротушения", "Yes", "Yes", "", "Yes" }));
                DT.Rows.Add(
-               sql.SetDataRow(DT.NewRow(), new string[] { "Rsv", "10", "Контроль резервирования", "Yes", "Yes", "", "Yes" }));
+               Ctrl.SetDataRow(DT.NewRow(), new string[] { "Rsv", "10", "Контроль резервирования", "Yes", "Yes", "", "Yes" }));
                DT.Rows.Add(
-               sql.SetDataRow(DT.NewRow(), new string[] { "Tnk", "11", "Баки дозаторы", "Yes", "Yes", "", "Yes" }));
+               Ctrl.SetDataRow(DT.NewRow(), new string[] { "Tnk", "11", "Баки дозаторы", "Yes", "Yes", "", "Yes" }));
                DT.Rows.Add(
-               sql.SetDataRow(DT.NewRow(), new string[] { "Grp", "", "Группа резервирования", "", "Yes", "", "Yes" }));
+               Ctrl.SetDataRow(DT.NewRow(), new string[] { "Grp", "", "Группа резервирования", "", "Yes", "", "Yes" }));
                DT.Rows.Add(
-               sql.SetDataRow(DT.NewRow(), new string[] { "Lst", "", "Лист защит", "Yes", "Yes", "", "Yes", "", "", "137" }));
+               Ctrl.SetDataRow(DT.NewRow(), new string[] { "Lst", "", "Лист защит", "Yes", "Yes", "", "Yes", "", "", "137" }));
                DT.Rows.Add(
-               sql.SetDataRow(DT.NewRow(), new string[] { "List", "", "Общий список защит", "Yes", "", "", "", "", "", "140" }));
+               Ctrl.SetDataRow(DT.NewRow(), new string[] { "List", "", "Общий список защит", "Yes", "", "", "", "", "", "140" }));
             }
 
-            if(!sql.SetDataTable())return;
+            if(!sql.SetTable())return;
             // Загрузка исходных данных 
             // Выбрать путь и имя файла в диалоговом окне
             OpenFileDialog ofd = new OpenFileDialog();
@@ -444,9 +444,9 @@ namespace SQLTuneCon
          {
             // Получение списка типов объектов
             DataTable dtObjectsType = new DataTable();
-            if(!sql.GetTable("TypesObjects", ref dtObjectsType))return;
-            List<string> lTypesObj = sql.GetListRowsInOneColumnTable(dtObjectsType, 1);
-            lTypesObj = sql.GetListRowsInOneColumnTable(dtObjectsType, 1);
+            if(!sql.GetTable("TypesObjects", out dtObjectsType))return;
+            List<string> lTypesObj = Ctrl.GetListRowsStrInOneColumnTable(dtObjectsType, 1);
+            lTypesObj = Ctrl.GetListRowsStrInOneColumnTable(dtObjectsType, 1);
             // Имя таблицы объектов
             string TableName = "Objects";
             // Список названий столбцов
@@ -477,7 +477,7 @@ namespace SQLTuneCon
 
             // Наполнение таблицы объектов
             DataTable DT = new DataTable();
-            if(!sql.GetTable(TableName, ref DT))return;
+            if(!sql.GetTable(TableName, out DT))return;
             // Проход по типам объектов из таблицы типов
             for (int i = 0; i < lTypesObj.Count; i++)
             {
@@ -487,12 +487,12 @@ namespace SQLTuneCon
                for (int m = 0; m < ListListDataObject[0].Count; m++)
                {
                   // Проход по данным в строке
-                  List<string> row = sql.GetListColumnsInOneRowTable(ListListDataObject, m);
+                  List<string> row = Ctrl.GetListColumnsInOneRowTable(ListListDataObject, m);
                   row.Insert(0, lTypesObj[i]);
-                  DT.Rows.Add(sql.SetDataRow(DT.NewRow(), row));
+                  DT.Rows.Add(Ctrl.SetDataRow(DT.NewRow(), row));
                }
             }
-            if(!sql.SetDataTable())return;
+            if(!sql.SetTable())return;
             //DT.Rows.Add(
             //sql.SetDataRow(DT.NewRow(), new string[] { /*1*/ "Ana", /*2*/ "Bool", /*3*/ "sHVD", /*4*/ "Недостоверное значение - КЗ", /*5*/ "", /*6*/ "", /*7*/ "Yes", /*8*/ "Yes", /*9*/ "Yes", /*10*/ "Yes", /*11*/ "Yes", /*12*/ "Yes", /*13*/ "Yes", /*14*/ "Yes", /*15*/ "Yes", /*16*/ "Yes", /*17*/ "Yes" }));
          }
@@ -536,6 +536,7 @@ namespace SQLTuneCon
          if (int.Parse(cbxTimeConnect.Text) - barTimCon > barConnect.Maximum) val = barConnect.Maximum;
          if (sql.TestConOk == 1) // Успешное завершение
          {
+            timConnect.Enabled = false;
             val = barConnect.Maximum;
             btnSave.Enabled = true;
             lblConnctYes.Visible = true;

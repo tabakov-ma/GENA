@@ -47,9 +47,17 @@
     <Compile Include="Entity.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Misc\WorkMisc.csproj">
+      <Project>{8cffeb12-450c-4b1f-b70d-38669f59a1cf}</Project>
+      <Name>WorkMisc</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\StringWork\WorkString.csproj">
       <Project>{78b20c20-ac57-4dbd-9b63-947ebf1ec8d7}</Project>
       <Name>WorkString</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WorkStruct\WorkStruct.csproj">
+      <Project>{c1e62446-377a-4d49-ba02-69dadde11bbe}</Project>
+      <Name>WorkStruct</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

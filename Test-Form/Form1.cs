@@ -12,6 +12,10 @@ using WorkSQL;
 using WorkString;
 using SQLTuneCon;
 using ExcelWork;
+using System.IO;
+using WorkMisc;
+using WorkFile;
+using WorkBox;
 
 namespace Test_Form
 {
@@ -63,7 +67,7 @@ namespace Test_Form
 
       private void btnSaveDgv_Click(object sender, EventArgs e)
       {
-         query.SetDataTable();
+         query.SetTable();
          query.GetTable("TestCreateTable", ref dt);
          dgvTest.DataSource = dt;
       }
@@ -126,19 +130,111 @@ namespace Test_Form
       private void btnWrProp_Click(object sender, EventArgs e)
       {
          query = new Query("Server=.\\SQLEXPRESS;Database=test27;Trusted_Connection=True;");
-         query.SetExtPropDB("test27", tbxPropName.Text, tbxPropVal.Text);
+         query.SetExtProp(name_bas:"test27", 
+                          name_tab: txbTabName.Text == "-1" ? null : txbTabName.Text, 
+                          name_col: txbColName.Text == "-1" ? null : txbColName.Text, 
+                          name_prop:txbPropName.Text, 
+                          val: txbPropVal.Text=="-1"?null: txbPropVal.Text);
       }
 
       private void btnReadProp_Click(object sender, EventArgs e)
       {
          query = new Query("Server=.\\SQLEXPRESS;Database=test27;Trusted_Connection=True;");
-         tbxPropVal.Text = query.GetExtPropDB("test27", tbxPropName.Text);
+         DataTable table;
+         txbPropVal.Text 
+            = query.GetExtProp(table_result: out table,
+                               name_bas:  txbBasName.Text  == "null" ? null : txbBasName.Text, 
+                               name_tab:  txbTabName.Text  == "null" ? null : txbTabName.Text,
+                               name_col:  txbColName.Text  == "null" ? null : txbColName.Text,
+                               name_prop: txbPropName.Text == "null" ? null : txbPropName.Text);
+         lblRowCount.Text = table.Rows.Count.ToString();
+
+         query.GetTable(txbTabName.Text,ref table);
+         query.SetDataTabColNamespaceFromExtProp(ref table, txbPropName.Text);
       }
 
       private void btnDelProp_Click(object sender, EventArgs e)
       {
          query = new Query("Server=.\\SQLEXPRESS;Database=test27;Trusted_Connection=True;");
-         query.DelExtPropDB("test27", tbxPropName.Text);
+         query.SetExtProp(name_bas:"test27", name_prop: txbPropName.Text, val: null);
+      }
+
+      private void button2_Click(object sender, EventArgs e)
+      {
+         byte[] BytesResult = null;
+         using (FileStream fileStream = File.OpenRead("G:\\00 Work\\GENERATOR\\Rtn\\ANA1"))
+         using (BinaryReader binaryReader = new BinaryReader(fileStream))
+         BytesResult = binaryReader.ReadBytes(256);
+         Dictionary<int,float> FloatsResult = new Dictionary<int, float>();
+         int m = 0;
+         tbx1.Clear();
+
+         Files files = new Files();
+         List<byte[]> RawData = new List<byte[]>();
+         FloatsResult = files.GetFloatFromHexFile("G:\\00 Work\\GENERATOR\\Rtn\\ANA1", out RawData, 0, 0, txtOrderBytes.Text);
+         if (FloatsResult != null) 
+         {
+            int i = 0;
+            foreach ( var fResult in FloatsResult)
+            {
+               if (FloatsResult[i] != 0)
+               {
+                  tbx1.Text = tbx1.Text + "Address: [" + fResult.Key.ToString() + "] = ";
+                  tbx1.Text = tbx1.Text + fResult.Value.ToString() + Environment.NewLine;
+               }
+               i++;
+            }
+         }
+         
+      }
+
+      private void btnWriteHex_Click(object sender, EventArgs e)
+      {
+         string InputText = tbx1.Text.Replace("Address: [","");
+         string[] LinesText = InputText.Split('\n');
+         Dictionary<int, float> Data = new Dictionary<int, float>();
+         foreach(string LineText in LinesText)
+         {
+            if (LineText == "") continue;
+            string[] temp = LineText.Replace(" = ", "").Split(']');
+            Data.Add(key: int.Parse(temp[0]), value: float.Parse(temp[1].Replace(".", ",")));
+         }
+         Files files = new Files();
+         int[] num = new int[Data.Count];
+         float[] val = new float[Data.Count];
+         int i = 0;
+         foreach (var dat in Data)
+         {
+            num[i] = dat.Key;
+            val[i] = dat.Value;
+            i++;
+         }
+         files.SetFloatInHexFile("G:\\00 Work\\GENERATOR\\Rtn\\ANA1", val, num[0], txtOrderBytes.Text);
+
+      }
+
+      private void btnOpenHexRW_Click(object sender, EventArgs e)
+      {
+         HexFileRW hexFileRW = new HexFileRW();
+         hexFileRW.Show();
+      }
+
+      private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+      {
+         DataGridView table = (DataGridView)sender;
+         DataGridViewCell cell = table.CurrentCell;
+         DataGridViewCheckBoxCell boxCell = (DataGridViewCheckBoxCell)table.CurrentCell;
+      }
+
+      private void button2_Click_1(object sender, EventArgs e)
+      {
+         HexFileToCSV hexFileToCSV = new HexFileToCSV();
+         hexFileToCSV.Show();
+      }
+
+      private void textBox1_TextChanged(object sender, EventArgs e)
+      {
+
       }
    }
 }

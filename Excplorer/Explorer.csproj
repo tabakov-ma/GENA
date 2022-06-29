@@ -102,6 +102,13 @@
       <Project>{78b20c20-ac57-4dbd-9b63-947ebf1ec8d7}</Project>
       <Name>WorkString</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WorkFile\WorkFile.csproj">
+      <Project>{80675629-2ea3-47a1-8386-c522ceb8ed50}</Project>
+      <Name>WorkFile</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

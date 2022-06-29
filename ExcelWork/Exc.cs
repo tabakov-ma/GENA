@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Excel = Microsoft.Office.Interop.Excel;
 using WorkString;
+using System.IO;
 
 namespace ExcelWork
 {
@@ -49,11 +50,11 @@ namespace ExcelWork
       {
          ListListData = new List<List<string>>();
          Patch = patch; NumSheet = numSheet; NumColumnStar = numColumnStar; NumColumnEnd = numColumnEnd; NumRowStar = numRowStar; NumRowEnd = numRowEnd;
-         await Task.Run(()=>getDataStr());
+         await Task.Run(()=>GetDataStr());
       }
       public static  void EndGetDataStr()
       { endGetDataStr = true; }
-      private static void getDataStr()
+      private static void GetDataStr()
       {
          try
          {
@@ -100,5 +101,9 @@ namespace ExcelWork
          }
          return result;
       }
+
+      
+      
+
    }
 }

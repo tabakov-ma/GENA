@@ -84,6 +84,14 @@
       <Project>{292ccbad-3951-488c-8ffa-0dd022a8d9ff}</Project>
       <Name>WorkExcel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\InputBox\WorkBox.csproj">
+      <Project>{97d4704d-8ef1-467f-84c1-48ddce43b6f5}</Project>
+      <Name>WorkBox</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Misc\WorkMisc.csproj">
+      <Project>{8cffeb12-450c-4b1f-b70d-38669f59a1cf}</Project>
+      <Name>WorkMisc</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SQLTuneConnect\SQLTuneCon.csproj">
       <Project>{b88bb2e8-7784-4a11-ac9b-0bde756b9b66}</Project>
       <Name>SQLTuneCon</Name>
@@ -95,6 +103,10 @@
     <ProjectReference Include="..\StringWork\WorkString.csproj">
       <Project>{78b20c20-ac57-4dbd-9b63-947ebf1ec8d7}</Project>
       <Name>WorkString</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WorkFile\WorkFile.csproj">
+      <Project>{80675629-2ea3-47a1-8386-c522ceb8ed50}</Project>
+      <Name>WorkFile</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

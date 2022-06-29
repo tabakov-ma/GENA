@@ -1,12 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace WorkString
 {
-   public class Str
+   public class Str : IComparer<string[]>
    {
+      public int Compare(string[] o1, string[] o2)
+      {
+         return string.Compare(o1[0], o2[0]);
+      }
+      /// <summary>
+      /// Строка базовых типов 
+      /// </summary>
+      public const string BaseTypeNames = "|Bool|Byte|Char|Double|Decimal|DInt|DWord|Float|Int|Long|Real|SByte|Short|String|UInt|ULong|UShort|Word|";
       /// <summary>
       /// Список объектов
       /// </summary>
@@ -55,18 +64,52 @@ namespace WorkString
       /// <param name="start"> Начальный элемент копирования и вставки </param>
       /// <param name="fillEmpty"> Включение заполнения пустых </param>
       /// <param name="fillText"> Текст для заполнения пустых </param>
-      public static void CopyArrStr(string[] source, string[] dest, int start = 0, bool fillEmpty = false, string fillText = "")
+      public static string[] CopyArrStr(string[] source, string[] dest=null, int start = 0, bool fillEmpty = false, string fillText = "", bool NotNull=false)
       {
-         int destLen = dest.Length;
+         List<string> result = new List<string>();
+         int destLen = dest!=null ? dest.Length : source.Length;
          int sourLen = source.Length;
          for(int i = start; i < destLen; i++)
          {
-            if(i > sourLen - 1)
+            if (i > sourLen - 1)
             {
-               if (fillEmpty) dest[i] = fillText;
+               if (fillEmpty)
+               {
+                  if(dest != null) dest[i] = fillText;
+                  result.Add(fillText);
+               }
             }
-            else  dest[i] = source[i];
+            else
+            {
+               if (NotNull)
+               {
+                  if (dest != null) dest[i] = source[i];
+                  if (source[i]!=null) result.Add(source[i]);
+               }
+               else
+               {
+                  if(source[i]!=null)
+                     result.Add(source[i]);
+               }
+            }
          }
+         return result.ToArray();
+      }
+
+      /// <summary>
+      /// Копирование словаря [string, sttring]
+      /// </summary>
+      /// <param name="source"></param>
+      /// <param name="dest"></param>
+      /// <returns></returns>
+      public static Dictionary<string, string> CopyDict2Str(Dictionary<string, string> source)
+      {
+         Dictionary<string, string> result = new Dictionary<string, string>();
+         foreach(var entry in source)
+         {
+            result.Add(key: entry.Key, value: entry.Value);
+         }
+         return result;
       }
 
       public static void CopyLstStr(List<string> source, List<string> dest, int start = 0, bool fillEmpty = false, string fillText = "")
@@ -81,6 +124,83 @@ namespace WorkString
             }
             else dest.Add(source[i]);
          }
+      }
+
+      /// <summary>
+      /// Ищет соответствие списков.
+      /// lstEqual - найденные соответствия;
+      /// lst1_rem - остаток от списка lst1, которых нет в lst2;
+      /// lst2_rem - остаток от списка lst2, которых нет в lst1;
+      /// </summary>
+      /// <param name="lst1"></param>
+      /// <param name="lst2"></param>
+      /// <param name="lstEqual"></param>
+      /// <param name="lst1_rem"></param>
+      /// <param name="lst2_rem"></param>
+      /// <returns></returns>
+      public static bool Find(List<string> lst1, List<string> lst2, 
+                              out List<string> lstEqual, 
+                              out List<string> lst1_rem, out List<string> lst2_rem )
+      {
+         lstEqual = new List<string>();
+         lst1_rem = new List<string>();
+         lst2_rem = new List<string>();
+         lst1_rem.AddRange(lst1.ToArray());
+         lst2_rem.AddRange(lst2.ToArray());
+         string str_lst1 = "|" + string.Join("|", lst1.ToArray()) + "|";
+         foreach(string str in lst2){
+            if (str_lst1.Contains("|"+str+"|"))
+            {
+               lstEqual.Add(str);
+               lst1_rem.Remove(str);
+               lst2_rem.Remove(str);
+            }
+         }
+         return lstEqual.Count>0;
+      }
+
+      /// <summary>
+      /// Выполняет поиск значения 'FindVal' в списке массивов строк
+      /// 'index:' -1 поиск во всём массиве, >= 0 в конкретном индексе
+      /// </summary>
+      /// <param name="sourse"></param>
+      /// <param name="FindVal"></param>
+      /// <param name="FindRow"></param>
+      /// <param name="index"></param>
+      /// <returns></returns>
+      public static bool Find(List<string[]> sourse, string FindVal, out string[] FindRow, int index = -1 )
+      {
+         FindRow = null;
+         foreach(string[] row in sourse)
+         {
+            if(index >= 0)
+            {
+               try
+               {
+                  if (row[index] == FindVal) 
+                  {
+                     FindRow = new string[row.Length];
+                     row.CopyTo(FindRow,0);
+                     return true; }
+               }
+               catch{ MessageBox.Show(text: "Переданный индекс 'index:' " + index + " больше длинны массива: " + row.Length,
+                                        caption: "Ошибка",
+                                        icon: MessageBoxIcon.Error,
+                                        buttons: MessageBoxButtons.OK); }
+            }
+            else{
+               foreach(string cell in row)
+               {
+                  if (cell == FindVal)
+                  {
+                     FindRow = new string[row.Length];
+                     row.CopyTo(FindRow, 0);
+                     return true;
+                  }
+               }
+            }
+         }
+         return false;
       }
 
       /// <summary>
@@ -122,6 +242,115 @@ namespace WorkString
             }
          }
          return new List<string>(result);
+      }
+
+      /// <summary>
+      /// Чтение таблицы из троки
+      /// </summary>
+      /// <param name="table"></param>
+      /// <param name="sep_head"></param>
+      /// <param name="sep_data"></param>
+      /// <returns></returns>
+      public static DataTable GetTableFromStr(string data, string sep_head = "=", string sep_data = ";", bool MsgYes=true)
+      {
+         DataTable result = new DataTable();
+         try
+         {
+            // Заголовок таблицы
+            string[] head = data.Split(sep_head.ToCharArray())[0].Split(';');
+            foreach(string NameColumn in head){
+               DataColumn column = new DataColumn(NameColumn);
+               result.Columns.Add(column);
+            }
+            // Данные таблицы
+            string [] data_rows = data.Split(sep_head.ToCharArray())[1].Split(';');
+            int num = 0;
+            DataRow row = null;
+            foreach (string data_row in data_rows){
+               if (num == 0) row = result.NewRow();
+               row[num] = data_row; num++;
+               if (num >= row.Table.Columns.Count){
+                  result.Rows.Add(row);
+                  num = 0;
+               }
+            }
+            if(num>0) result.Rows.Add(row);
+         }
+         catch (Exception ex)
+         {
+            if(MsgYes) MessErr(ex);
+         }
+         return result;
+      }
+      public static string GetTimeNow(string format = "hh:mm:ss:fff")
+      {
+         return DateTime.Now.ToString(format);
+      }
+
+      /// <summary>
+      /// Сохранение таблицы в троку
+      /// </summary>
+      /// <param name="table"></param>
+      /// <param name="sep_head"></param>
+      /// <param name="sep_data"></param>
+      /// <returns></returns>
+      public static string SetStrFromTable(DataTable table, string sep_head = "=", string sep_data = ";")
+      {
+         string result = null;
+         try
+         {
+            // Заголовок таблицы
+            foreach (DataColumn column in table.Columns){
+            result = result + column.ColumnName + sep_data;
+         } 
+         result = result.TrimEnd(sep_data.ToCharArray()) + sep_head;
+         // Данные таблицы
+         
+            foreach (DataRow row in table.Rows)
+            {
+               for (int i = 0; i < row.Table.Columns.Count; i++)
+               {
+                  result = result + row[i] + sep_data;
+               }
+            }
+            result = result.TrimEnd(sep_data.ToCharArray());
+         }
+         catch (Exception ex)
+         {
+            MessErr(ex);
+         }
+         return result;
+      }
+
+      /// <summary>
+      /// Сообщение об ошибки
+      /// </summary>
+      /// <param name="ex"></param>
+      /// <param name="caption"></param>
+      /// <param name="error"></param>
+      /// <param name="buttons"></param>
+      /// <param name="icon"></param>
+      /// <returns></returns>
+      private static DialogResult MessErr(
+         Exception ex = null, string caption = "Ошибка", string error = "",
+         MessageBoxButtons buttons = MessageBoxButtons.OK,
+         MessageBoxIcon icon = MessageBoxIcon.Error)
+      {
+         string exInfo = "";
+         if (ex != null)
+         {
+            exInfo = "Message: " + ex.Message + "\n" +
+                     "Source: " + ex.Source + "\n" +
+                     "StackTrace: " + ex.StackTrace + "\n" +
+                     "TargetSite: " + ex.TargetSite + "\n" +
+                     "HelpLink: " + ex.HelpLink;
+         }
+         error = error != "" ? "Error: " + error + "\n" : error;
+         return MessageBox.Show(
+            text: error + exInfo,
+            caption: caption,
+            buttons: buttons,
+            icon: icon);
       }
 
       public static Dictionary<int,string> Sort(Dictionary<int, string> source, bool type = true)
@@ -276,6 +505,37 @@ namespace WorkString
          
      }
 
+     /// <summary>
+     /// Получить массив строк из словаря <string, string>
+     /// </summary>
+     /// <param name="Dic"></param>
+     /// <param name="key"></param>
+     /// <returns></returns>
+     public static string[] GetArrStrFromDic(Dictionary<string, string> Dic, bool key = true)
+     {
+         string[] result = null;
+         if (Dic == null || Dic.Count == 0) return result;
+
+         result = new string[Dic.Count];
+         int i = 0;
+         if (key)
+         {
+            foreach (string Key in Dic.Keys)
+            {
+               result[i] = Key;
+               i++;
+            }
+         }
+         else
+         {
+            foreach (string Value in Dic.Values)
+            {
+               result[i] = Value;
+               i++;
+            }
+         }
+         return result;
+     }
       /// <summary>
       /// Возвращает значение (int) из строки содержащей значение между разделителями (..[int]..) или второе значение после разделителя [start..int]
       /// </summary>
@@ -283,7 +543,7 @@ namespace WorkString
       /// <param name="start"> Выходное значение int идущее первым до разделителя [start..int] </param>
       /// <param name="separ"> Разделители, по умолчанию "[", ".." и "]" </param>
       /// <returns></returns>
-      public static int GetArraySizeFromStr(string val, out int start, string[] separ = null )
+     public static int GetArraySizeFromStr(string val, out int start, string[] separ = null )
      {
          int num = start = - 1;
          if (separ == null)
@@ -346,52 +606,37 @@ namespace WorkString
      /// (Возврыщает:
      /// 0 - базовый тип
      /// 1 - графический объект
-     /// 2 - контроллерный объект)
+     /// 2 - контроллерный объект
+     /// -1 - ошибка, не загружен списов объектов проекта)
      /// </summary>
      /// <param name="val">Входная строка</param>
      /// <param name="equal">Флаг строгости соответсвия</param>
      /// <returns></returns>
-     public static int IsObject(string val, bool equal = false)
+     public static int IsObject(string val)
      {
          int result = 0;
 
-         List<string[]> objectsNames = ObjectsNames != null ? ObjectsNames : new List<string[]> { new string[]{ "Ana", "1"}, new string[] { "Dis", "2" }};
-
-         foreach(string[] name in objectsNames)
+         if(ObjectsNames == null)
          {
-            if (equal)
-            {
-               if (name[0] == val)
-               {
-                  if(name[1] != "")
-                  {
-                     result = 1;
-                  }
-                  else
-                  {
-                     result = 2;
-                  }
-                  
-               }
-            }
-            else
-            {
-               int num = name[0].IndexOf(val);
-               if (num >= 0)
-               {
-                  if(val == name[0] || '[' ==name[0][num + val.Length])
-                  {
+            MessageBox.Show(text: "Список объектов проекта не загружен,\n" +
+                                  "функция IsObject не может проверить значение " + val,
+                                  caption: "Ошибка",
+                                  icon: MessageBoxIcon.Error,
+                                  buttons: MessageBoxButtons.OK);
+            return -1;
+         }
 
-                     if (name[1] != "")
-                     {
-                        result = 1;
-                     }
-                     else
-                     {
-                        result = 2;
-                     }
-                  }
-                  
+         foreach(string[] name in ObjectsNames)
+         {
+            if (name[0] == val)
+            {
+               if(name[1] != "" && name[1] != "0")
+               {
+                  result = 1;
+               }
+               else
+               {
+                  result = 2;
                }
                   
             }
@@ -482,6 +727,11 @@ namespace WorkString
             }
          }
          return result;
+      }
+      
+      public static string EmptyDel(string val)
+      {
+         return new string(val.Where(c => !char.IsControl(c)).ToArray());
       }
 
    }

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BE52E256-E1D8-48E2-945B-FFCFCDB53FFE}</ProjectGuid>
+    <ProjectGuid>{8CFFEB12-450C-4B1F-B70D-38669F59A1CF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ControlWork</RootNamespace>
-    <AssemblyName>ControlWork</AssemblyName>
+    <RootNamespace>Misc</RootNamespace>
+    <AssemblyName>Misc</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -41,29 +41,10 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ctrl.cs" />
+    <Compile Include="Misc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Misc\WorkMisc.csproj">
-      <Project>{8cffeb12-450c-4b1f-b70d-38669f59a1cf}</Project>
-      <Name>WorkMisc</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SQLWork\SQLWork\WorkSQL.csproj">
-      <Project>{e2666bfa-b7bf-48b9-afcf-976dc71d4173}</Project>
-      <Name>WorkSQL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\StringWork\WorkString.csproj">
-      <Project>{78b20c20-ac57-4dbd-9b63-947ebf1ec8d7}</Project>
-      <Name>WorkString</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WorkStruct\WorkStruct.csproj">
-      <Project>{c1e62446-377a-4d49-ba02-69dadde11bbe}</Project>
-      <Name>WorkStruct</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -44,7 +44,7 @@ namespace Explorer
       public Expl()
       {
          InitializeComponent();
-         // Samsung
+         // Samsung + Asus
          
          // Проверка всех мониторов и возможности открыть окно по сохранённым координатам
          Screen[] aryScreen;

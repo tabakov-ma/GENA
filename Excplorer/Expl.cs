@@ -45,7 +45,7 @@ namespace Explorer
       {
          InitializeComponent();
 
-         // Testing write from asus 5
+         // Testing write from asus 6
          // Проверка всех мониторов и возможности открыть окно по сохранённым координатам
          Screen[] aryScreen;
          aryScreen = Screen.AllScreens;

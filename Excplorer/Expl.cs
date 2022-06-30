@@ -45,7 +45,7 @@ namespace Explorer
       {
          InitializeComponent();
 
-         // SAMSUNG
+         // SAMSUNG 2
          // Проверка всех мониторов и возможности открыть окно по сохранённым координатам
          Screen[] aryScreen;
          aryScreen = Screen.AllScreens;

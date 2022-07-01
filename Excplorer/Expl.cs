@@ -45,7 +45,7 @@ namespace Explorer
       {
          InitializeComponent();
 
-         // ASUS 7
+         // ASUS 8
          // Проверка всех мониторов и возможности открыть окно по сохранённым координатам
          Screen[] aryScreen;
          aryScreen = Screen.AllScreens;

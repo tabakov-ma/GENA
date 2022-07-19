@@ -36,6 +36,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Inform", "Inform", "{978D54
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvancedTextEditorCSharp", "..\AdvancedTextEditorCSharp\AdvancedTextEditorCSharp\AdvancedTextEditorCSharp.csproj", "{4A03385F-5834-404B-AC9B-B11BFF3A4E9D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7151E79F-CC40-4CB6-81C6-4EED27E2BCB3}"
+	ProjectSection(SolutionItems) = preProject
+		..\DataBase\test27.ldf = ..\DataBase\test27.ldf
+		..\DataBase\test27.mdf = ..\DataBase\test27.mdf
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

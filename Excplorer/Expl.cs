@@ -45,24 +45,27 @@ namespace Explorer
       {
          InitializeComponent();
 
-         // samsung 9
          // Проверка всех мониторов и возможности открыть окно по сохранённым координатам
          Screen[] aryScreen;
          aryScreen = Screen.AllScreens;
-         bool testX = false, testY = false;
+         bool testX = false, testY = false; // Проверка координат
          int X = AccessProp.GetPropInt("X");
          int Y = AccessProp.GetPropInt("Y");
          int Width = AccessProp.GetPropInt("Width");
          int Height = AccessProp.GetPropInt("Height");
+
+         // Проверка наличия монитора с ранее сохранёнными координатами
          foreach (Screen sc in aryScreen)
          {
             if (X + 10 >= sc.Bounds.X && X < sc.Bounds.X + sc.Bounds.Width) testX = true;
             if (Y + 10 >= sc.Bounds.Y && Y < sc.Bounds.Y + sc.Bounds.Height) testY = true;
          }
-         if (!testX || !testY)
+         // Проверку не прошли координаты (нет монитора) или минимальный размер экрана
+         if (!testX || !testY || Width <= 100 || Height <= 100)
          {
             foreach (Screen sc in aryScreen)
             {
+               // Координаты и разрешение по главному экрану 
                if (sc.Primary)
                {
                   X = sc.Bounds.X;

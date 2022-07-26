@@ -749,16 +749,16 @@ namespace WorkBox
          txbPath.Invalidate();
       }
 
-      private void txbPath_MouseClick_1(object sender, AxMicrosoft.Vbe.Interop.Forms.MdcTextEvents_MouseDownEvent e)
-      {
-         OpenFileDialog OPF = new OpenFileDialog();
-         if (OPF.ShowDialog() == DialogResult.OK)
-         {
-            txbPath.Text = OPF.FileName;
-            ReadData(null);
-            GoEdit();
-         }
-      }
+      //private void txbPath_MouseClick_1(object sender, AxMicrosoft.Vbe.Interop.Forms.MdcTextEvents_MouseDownEvent e)
+      //{
+      //   OpenFileDialog OPF = new OpenFileDialog();
+      //   if (OPF.ShowDialog() == DialogResult.OK)
+      //   {
+      //      txbPath.Text = OPF.FileName;
+      //      ReadData(null);
+      //      GoEdit();
+      //   }
+      //}
 
       private void dgvData_SelectionChanged(object sender, EventArgs e)
       {

@@ -74,13 +74,13 @@ namespace WorkBox
          this.B02 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
          this.B01 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
          this.B00 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+         this.txbPath = new System.Windows.Forms.TextBox();
          this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
          this.btnWrite = new System.Windows.Forms.Button();
          this.btnRead = new System.Windows.Forms.Button();
          this.dgvData = new System.Windows.Forms.DataGridView();
          this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
          this.timer1 = new System.Windows.Forms.Timer(this.components);
-         this.txbPath = new System.Windows.Forms.TextBox();
          this.tableLayoutPanel1.SuspendLayout();
          this.tableLayoutPanel2.SuspendLayout();
          this.tableLayoutPanel3.SuspendLayout();
@@ -515,6 +515,15 @@ namespace WorkBox
          this.B00.Name = "B00";
          this.B00.Width = 125;
          // 
+         // txbPath
+         // 
+         this.txbPath.Dock = System.Windows.Forms.DockStyle.Fill;
+         this.txbPath.Location = new System.Drawing.Point(3, 98);
+         this.txbPath.Name = "txbPath";
+         this.txbPath.Size = new System.Drawing.Size(777, 25);
+         this.txbPath.TabIndex = 2;
+         this.txbPath.Text = "Нажми для выбора HEX-файла";
+         // 
          // tableLayoutPanel6
          // 
          this.tableLayoutPanel6.ColumnCount = 1;
@@ -591,15 +600,6 @@ namespace WorkBox
          this.timer1.Enabled = true;
          this.timer1.Interval = 1000;
          this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-         // 
-         // txbPath
-         // 
-         this.txbPath.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.txbPath.Location = new System.Drawing.Point(3, 98);
-         this.txbPath.Name = "txbPath";
-         this.txbPath.Size = new System.Drawing.Size(777, 25);
-         this.txbPath.TabIndex = 2;
-         this.txbPath.Text = "Нажми для выбора HEX-файла";
          // 
          // HexFileRW
          // 

@@ -68,7 +68,7 @@ namespace Test_Form
       private void btnSaveDgv_Click(object sender, EventArgs e)
       {
          query.SetTable();
-         query.GetTable("TestCreateTable", ref dt);
+         //query.GetTable("TestCreateTable", ref dt);
          dgvTest.DataSource = dt;
       }
 
@@ -149,7 +149,7 @@ namespace Test_Form
                                name_prop: txbPropName.Text == "null" ? null : txbPropName.Text);
          lblRowCount.Text = table.Rows.Count.ToString();
 
-         query.GetTable(txbTabName.Text,ref table);
+         //query.GetTable(txbTabName.Text,ref table);
          query.SetDataTabColNamespaceFromExtProp(ref table, txbPropName.Text);
       }
 

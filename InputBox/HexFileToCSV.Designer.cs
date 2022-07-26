@@ -42,13 +42,12 @@ namespace WorkBox
          this.BYTES = new System.Windows.Forms.DataGridViewTextBoxColumn();
          this.OFFSET = new System.Windows.Forms.DataGridViewTextBoxColumn();
          this.tlp_H1_V = new System.Windows.Forms.TableLayoutPanel();
-         this.txbPath = new AxMicrosoft.Vbe.Interop.Forms.AxTextBox();
          this.button1 = new System.Windows.Forms.Button();
          this.pbxHelp = new System.Windows.Forms.PictureBox();
+         this.txbPath = new System.Windows.Forms.TextBox();
          this.tlp_H.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.dgvColumns)).BeginInit();
          this.tlp_H1_V.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.txbPath)).BeginInit();
          ((System.ComponentModel.ISupportInitialize)(this.pbxHelp)).BeginInit();
          this.SuspendLayout();
          // 
@@ -183,17 +182,6 @@ namespace WorkBox
          this.tlp_H1_V.Size = new System.Drawing.Size(906, 34);
          this.tlp_H1_V.TabIndex = 4;
          // 
-         // txbPath
-         // 
-         this.txbPath.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.txbPath.Location = new System.Drawing.Point(3, 3);
-         this.txbPath.Name = "txbPath";
-         this.txbPath.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("txbPath.OcxState")));
-         this.txbPath.Size = new System.Drawing.Size(830, 28);
-         this.txbPath.TabIndex = 3;
-         this.txbPath.MouseDownEvent += new AxMicrosoft.Vbe.Interop.Forms.MdcTextEvents_MouseDownEventHandler(this.txbPath_MouseDownEvent);
-         this.txbPath.Enter += new System.EventHandler(this.txbPath_Enter);
-         // 
          // button1
          // 
          this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -216,6 +204,15 @@ namespace WorkBox
          this.pbxHelp.TabStop = false;
          this.pbxHelp.Visible = false;
          // 
+         // txbPath
+         // 
+         this.txbPath.Dock = System.Windows.Forms.DockStyle.Fill;
+         this.txbPath.Location = new System.Drawing.Point(3, 3);
+         this.txbPath.Name = "txbPath";
+         this.txbPath.Size = new System.Drawing.Size(830, 22);
+         this.txbPath.TabIndex = 5;
+         this.txbPath.Text = "Нажми для выбора HEX-файла";
+         // 
          // HexFileToCSV
          // 
          this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -228,7 +225,7 @@ namespace WorkBox
          this.tlp_H.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.dgvColumns)).EndInit();
          this.tlp_H1_V.ResumeLayout(false);
-         ((System.ComponentModel.ISupportInitialize)(this.txbPath)).EndInit();
+         this.tlp_H1_V.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.pbxHelp)).EndInit();
          this.ResumeLayout(false);
 
@@ -238,7 +235,7 @@ namespace WorkBox
 
       private System.Windows.Forms.TableLayoutPanel tlp_H;
       private System.Windows.Forms.DataGridView dgvColumns;
-      private AxMicrosoft.Vbe.Interop.Forms.AxTextBox txbPath;
+      //private AxMicrosoft.Vbe.Interop.Forms.AxTextBox txbPath;
       private System.Windows.Forms.DataGridViewTextBoxColumn NUM;
       private System.Windows.Forms.DataGridViewTextBoxColumn COLUMN;
       private System.Windows.Forms.DataGridViewTextBoxColumn ORDER;
@@ -251,5 +248,6 @@ namespace WorkBox
       private System.Windows.Forms.TableLayoutPanel tlp_H1_V;
       private System.Windows.Forms.Button button1;
       private System.Windows.Forms.PictureBox pbxHelp;
+      private System.Windows.Forms.TextBox txbPath;
    }
 }

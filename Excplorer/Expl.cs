@@ -787,14 +787,20 @@ namespace Explorer
          Query queryTC = new Query(StrCon: QuerySQL.GetStrConnect());
          tuneViewTable = new TuneViewTable(query: queryTC);
 
-         TableCreator tuneGeneral = new TableCreator(QuerySQL, tuneViewTable);
+         CreatorTable tuneGeneral = new CreatorTable(QuerySQL, tuneViewTable);
          tuneGeneral.ShowDialog();
       }
 
       private void tsmExportCreator_Click(object sender, EventArgs e)
       {
-         ExportCreator ExCr = new ExportCreator(QuerySQL);
+         CreatorExport ExCr = new CreatorExport(QuerySQL);
          ExCr.ShowDialog();
+      }
+
+      private void tsmTuneProjectCreator_Click(object sender, EventArgs e)
+      {
+         CreatorProject PrCr = new CreatorProject();
+         PrCr.ShowDialog();
       }
    }
 }

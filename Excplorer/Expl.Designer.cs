@@ -65,6 +65,7 @@ namespace Explorer
          this.tsmTune_AllowAddRow = new System.Windows.Forms.ToolStripMenuItem();
          this.tsmTuneViewTableCol = new System.Windows.Forms.ToolStripMenuItem();
          this.tsmTuneTableCreator = new System.Windows.Forms.ToolStripMenuItem();
+         this.tsmTuneProjectCreator = new System.Windows.Forms.ToolStripMenuItem();
          this.tsmBD = new System.Windows.Forms.ToolStripMenuItem();
          this.tsmTuneConnect = new System.Windows.Forms.ToolStripMenuItem();
          this.tsmInstance = new System.Windows.Forms.ToolStripMenuItem();
@@ -525,7 +526,8 @@ namespace Explorer
             this.tsmTune_Tool,
             this.tsmTune_AllowAddRow,
             this.tsmTuneViewTableCol,
-            this.tsmTuneTableCreator});
+            this.tsmTuneTableCreator,
+            this.tsmTuneProjectCreator});
          this.tsmTune.Name = "tsmTune";
          this.tsmTune.Size = new System.Drawing.Size(98, 24);
          this.tsmTune.Text = "Настройки";
@@ -561,6 +563,13 @@ namespace Explorer
          this.tsmTuneTableCreator.Size = new System.Drawing.Size(353, 26);
          this.tsmTuneTableCreator.Text = "Конструктор таблиц";
          this.tsmTuneTableCreator.Click += new System.EventHandler(this.tsmTuneTableCreator_Click);
+         // 
+         // tsmTuneProjectCreator
+         // 
+         this.tsmTuneProjectCreator.Name = "tsmTuneProjectCreator";
+         this.tsmTuneProjectCreator.Size = new System.Drawing.Size(353, 26);
+         this.tsmTuneProjectCreator.Text = "Конструктор проекта";
+         this.tsmTuneProjectCreator.Click += new System.EventHandler(this.tsmTuneProjectCreator_Click);
          // 
          // tsmBD
          // 
@@ -767,6 +776,7 @@ namespace Explorer
       private System.Windows.Forms.ToolStripMenuItem tsmImportCurrTableHexFile;
       private System.Windows.Forms.ToolStripMenuItem tsmTuneTableCreator;
       private System.Windows.Forms.ToolStripMenuItem tsmExportCreator;
+      private System.Windows.Forms.ToolStripMenuItem tsmTuneProjectCreator;
    }
 }
 

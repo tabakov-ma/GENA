@@ -20,6 +20,11 @@ namespace WorkMisc
          return (val & (1 << num)) != 0;
       }
 
+      /// <summary>
+      /// Получает ширину монитора, где форма отображается
+      /// </summary>
+      /// <param name="obj"></param>
+      /// <returns></returns>
       public static int GetScreenWidth(Control obj)
       {
          Screen screen = Screen.FromControl(obj);

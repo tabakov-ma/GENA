@@ -13,7 +13,7 @@ using WorkString;
 
 namespace WorkBox
 {
-   public partial class ExportCreator : Form
+   public partial class CreatorExport : Form
    {
       DataTable[] dts;
       DataTable dtTune;
@@ -26,7 +26,7 @@ namespace WorkBox
       enum dtName{ OBJECT, HMI, PLC, FILE }
 
       bool DataProgChang = true;
-      public ExportCreator(Query query)
+      public CreatorExport(Query query)
       {
          InitializeComponent();
          this.query = query;
@@ -598,7 +598,7 @@ namespace WorkBox
          Query queryTC = new Query(StrCon: query.GetStrConnect());
          TuneViewTable tuneViewTable = new TuneViewTable(query: queryTC);
 
-         TableCreator TabCreat = new TableCreator(query, tuneViewTable, TableCreator.TableCreatorTabControl.DATA);
+         CreatorTable TabCreat = new CreatorTable(query, tuneViewTable, CreatorTable.TableCreatorTabControl.DATA);
          TabCreat.ShowDialog();
       }
 

@@ -1,7 +1,7 @@
 ﻿
 namespace WorkBox
 {
-   partial class ExportCreator
+   partial class CreatorExport
    {
       /// <summary>
       /// Required designer variable.

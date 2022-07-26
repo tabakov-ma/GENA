@@ -31,8 +31,8 @@ namespace WorkBox
       {
          this.components = new System.ComponentModel.Container();
          System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HexFileRW));
          System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HexFileRW));
          this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
          this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
          this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
@@ -74,19 +74,18 @@ namespace WorkBox
          this.B02 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
          this.B01 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
          this.B00 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-         this.txbPath = new AxMicrosoft.Vbe.Interop.Forms.AxTextBox();
          this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
          this.btnWrite = new System.Windows.Forms.Button();
          this.btnRead = new System.Windows.Forms.Button();
          this.dgvData = new System.Windows.Forms.DataGridView();
          this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
          this.timer1 = new System.Windows.Forms.Timer(this.components);
+         this.txbPath = new System.Windows.Forms.TextBox();
          this.tableLayoutPanel1.SuspendLayout();
          this.tableLayoutPanel2.SuspendLayout();
          this.tableLayoutPanel3.SuspendLayout();
          this.tableLayoutPanel5.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.dgvBits)).BeginInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txbPath)).BeginInit();
          this.tableLayoutPanel6.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.dgvData)).BeginInit();
          this.SuspendLayout();
@@ -516,17 +515,6 @@ namespace WorkBox
          this.B00.Name = "B00";
          this.B00.Width = 125;
          // 
-         // txbPath
-         // 
-         this.txbPath.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.txbPath.Location = new System.Drawing.Point(3, 98);
-         this.txbPath.Name = "txbPath";
-         this.txbPath.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("txbPath.OcxState")));
-         this.txbPath.Size = new System.Drawing.Size(777, 24);
-         this.txbPath.TabIndex = 2;
-         this.txbPath.MouseDownEvent += new AxMicrosoft.Vbe.Interop.Forms.MdcTextEvents_MouseDownEventHandler(this.txbPath_MouseClick_1);
-         this.txbPath.Enter += new System.EventHandler(this.txbPath_Enter);
-         // 
          // tableLayoutPanel6
          // 
          this.tableLayoutPanel6.ColumnCount = 1;
@@ -604,6 +592,15 @@ namespace WorkBox
          this.timer1.Interval = 1000;
          this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
          // 
+         // txbPath
+         // 
+         this.txbPath.Dock = System.Windows.Forms.DockStyle.Fill;
+         this.txbPath.Location = new System.Drawing.Point(3, 98);
+         this.txbPath.Name = "txbPath";
+         this.txbPath.Size = new System.Drawing.Size(777, 25);
+         this.txbPath.TabIndex = 2;
+         this.txbPath.Text = "Нажми для выбора HEX-файла";
+         // 
          // HexFileRW
          // 
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
@@ -621,8 +618,8 @@ namespace WorkBox
          this.tableLayoutPanel3.ResumeLayout(false);
          this.tableLayoutPanel3.PerformLayout();
          this.tableLayoutPanel5.ResumeLayout(false);
+         this.tableLayoutPanel5.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.dgvBits)).EndInit();
-         ((System.ComponentModel.ISupportInitialize)(this.txbPath)).EndInit();
          this.tableLayoutPanel6.ResumeLayout(false);
          ((System.ComponentModel.ISupportInitialize)(this.dgvData)).EndInit();
          this.ResumeLayout(false);
@@ -678,6 +675,6 @@ namespace WorkBox
       private System.Windows.Forms.CheckBox ckbFI;
       private System.Windows.Forms.ComboBox cmbOrder;
       private System.Windows.Forms.Timer timer1;
-      private AxMicrosoft.Vbe.Interop.Forms.AxTextBox txbPath;
+      private System.Windows.Forms.TextBox txbPath;
    }
 }

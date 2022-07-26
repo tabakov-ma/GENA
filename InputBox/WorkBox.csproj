@@ -46,11 +46,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExportCreator.cs">
+    <Compile Include="CreatorExport.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ExportCreator.Designer.cs">
-      <DependentUpon>ExportCreator.cs</DependentUpon>
+    <Compile Include="CreatorExport.Designer.cs">
+      <DependentUpon>CreatorExport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CreatorProject.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreatorProject.Designer.cs">
+      <DependentUpon>CreatorProject.cs</DependentUpon>
     </Compile>
     <Compile Include="HexFileRW.cs">
       <SubType>Form</SubType>
@@ -93,11 +99,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="TableCreator.cs">
+    <Compile Include="CreatorTable.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TableCreator.Designer.cs">
-      <DependentUpon>TableCreator.cs</DependentUpon>
+    <Compile Include="CreatorTable.Designer.cs">
+      <DependentUpon>CreatorTable.cs</DependentUpon>
     </Compile>
     <Compile Include="TuneInstance.cs">
       <SubType>Form</SubType>
@@ -113,8 +119,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ExportCreator.resx">
-      <DependentUpon>ExportCreator.cs</DependentUpon>
+    <EmbeddedResource Include="CreatorExport.resx">
+      <DependentUpon>CreatorExport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreatorProject.resx">
+      <DependentUpon>CreatorProject.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HexFileRW.resx">
       <DependentUpon>HexFileRW.cs</DependentUpon>
@@ -135,8 +144,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="TableCreator.resx">
-      <DependentUpon>TableCreator.cs</DependentUpon>
+    <EmbeddedResource Include="CreatorTable.resx">
+      <DependentUpon>CreatorTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TuneInstance.resx">
       <DependentUpon>TuneInstance.cs</DependentUpon>
@@ -172,14 +181,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="AxMicrosoft.Vbe.Interop.Forms">
-      <Guid>{0D452EE1-E08F-101A-852E-02608C4D0BB4}</Guid>
-      <VersionMajor>2</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>aximp</WrapperTool>
-      <Isolated>False</Isolated>
-    </COMReference>
     <COMReference Include="Microsoft.Vbe.Interop.Forms">
       <Guid>{0D452EE1-E08F-101A-852E-02608C4D0BB4}</Guid>
       <VersionMajor>2</VersionMajor>

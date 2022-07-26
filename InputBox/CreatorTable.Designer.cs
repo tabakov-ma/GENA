@@ -1,7 +1,7 @@
 ﻿
 namespace WorkBox
 {
-   partial class TableCreator
+   partial class CreatorTable
    {
       /// <summary>
       /// Required designer variable.
@@ -74,6 +74,7 @@ namespace WorkBox
          this.rbxLink = new System.Windows.Forms.RadioButton();
          this.rbxEPtab = new System.Windows.Forms.RadioButton();
          this.rbxEPcol = new System.Windows.Forms.RadioButton();
+         this.lblTest = new System.Windows.Forms.Label();
          this.tlp_H.SuspendLayout();
          this.tlp_H1_H.SuspendLayout();
          this.tlp_H1_H0_V.SuspendLayout();
@@ -371,11 +372,13 @@ namespace WorkBox
          // 
          // tlp_H0_V
          // 
-         this.tlp_H0_V.ColumnCount = 2;
+         this.tlp_H0_V.ColumnCount = 3;
          this.tlp_H0_V.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
          this.tlp_H0_V.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+         this.tlp_H0_V.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
          this.tlp_H0_V.Controls.Add(this.tbcMain, 0, 0);
          this.tlp_H0_V.Controls.Add(this.lblHelp, 1, 0);
+         this.tlp_H0_V.Controls.Add(this.lblTest, 2, 0);
          this.tlp_H0_V.Dock = System.Windows.Forms.DockStyle.Fill;
          this.tlp_H0_V.Location = new System.Drawing.Point(3, 3);
          this.tlp_H0_V.Name = "tlp_H0_V";
@@ -424,7 +427,7 @@ namespace WorkBox
          // 
          this.lblHelp.AutoSize = true;
          this.lblHelp.Dock = System.Windows.Forms.DockStyle.Right;
-         this.lblHelp.Location = new System.Drawing.Point(944, 0);
+         this.lblHelp.Location = new System.Drawing.Point(203, 0);
          this.lblHelp.Name = "lblHelp";
          this.lblHelp.Size = new System.Drawing.Size(37, 29);
          this.lblHelp.TabIndex = 10;
@@ -678,13 +681,23 @@ namespace WorkBox
          this.rbxEPcol.UseVisualStyleBackColor = false;
          this.rbxEPcol.Click += new System.EventHandler(this.rbx_Click);
          // 
-         // TableCreator
+         // lblTest
+         // 
+         this.lblTest.AutoSize = true;
+         this.lblTest.Location = new System.Drawing.Point(246, 0);
+         this.lblTest.Name = "lblTest";
+         this.lblTest.Size = new System.Drawing.Size(46, 17);
+         this.lblTest.TabIndex = 11;
+         this.lblTest.Text = "label2";
+         this.lblTest.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+         // 
+         // CreatorTable
          // 
          this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.ClientSize = new System.Drawing.Size(990, 681);
          this.Controls.Add(this.spc_H);
-         this.Name = "TableCreator";
+         this.Name = "CreatorTable";
          this.Text = "Конструктор таблиц";
          this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.TableCreator_FormClosed);
          this.Load += new System.EventHandler(this.TableCreator_Load);
@@ -769,5 +782,6 @@ namespace WorkBox
       private System.Windows.Forms.GroupBox groupBox1;
       private System.Windows.Forms.TextBox tbxWhere;
       private System.Windows.Forms.Button btnExtProp;
+      private System.Windows.Forms.Label lblTest;
    }
 }

@@ -254,31 +254,41 @@ namespace WorkString
       public static DataTable GetTableFromStr(string data, string sep_head = "=", string sep_data = ";", bool MsgYes=true)
       {
          DataTable result = new DataTable();
-         try
+         if (data != null && data != "" && data.Contains(sep_head) && data.Contains(sep_data))
          {
-            // Заголовок таблицы
-            string[] head = data.Split(sep_head.ToCharArray())[0].Split(';');
-            foreach(string NameColumn in head){
-               DataColumn column = new DataColumn(NameColumn);
-               result.Columns.Add(column);
-            }
-            // Данные таблицы
-            string [] data_rows = data.Split(sep_head.ToCharArray())[1].Split(';');
-            int num = 0;
-            DataRow row = null;
-            foreach (string data_row in data_rows){
-               if (num == 0) row = result.NewRow();
-               row[num] = data_row; num++;
-               if (num >= row.Table.Columns.Count){
-                  result.Rows.Add(row);
-                  num = 0;
+            try
+            {
+               // Заголовок таблицы
+               string[] head = data.Split(sep_head.ToCharArray())[0].Split(';');
+               foreach (string NameColumn in head)
+               {
+                  DataColumn column = new DataColumn(NameColumn);
+                  result.Columns.Add(column);
                }
+               // Данные таблицы
+               string[] data_rows = data.Split(sep_head.ToCharArray())[1].Split(';');
+               int num = 0;
+               DataRow row = null;
+               foreach (string data_row in data_rows)
+               {
+                  if (num == 0) row = result.NewRow();
+                  row[num] = data_row; num++;
+                  if (num >= row.Table.Columns.Count)
+                  {
+                     result.Rows.Add(row);
+                     num = 0;
+                  }
+               }
+               if (num > 0) result.Rows.Add(row);
             }
-            if(num>0) result.Rows.Add(row);
+            catch (Exception ex)
+            {
+               if (MsgYes) MessErr(ex);
+            }
          }
-         catch (Exception ex)
+         else
          {
-            if(MsgYes) MessErr(ex);
+            if (MsgYes) MessErr(error: "Входная строка не корректна: '" + data +"'");
          }
          return result;
       }

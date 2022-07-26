@@ -1601,6 +1601,31 @@ namespace WorkControl
          return lstResult;
       }
 
+      /// <summary>
+      /// Возвращает минимальную ширину для формы, 
+      /// вычисляемую по элементам расположенным на форме
+      /// </summary>
+      /// <param name="controls"></param>
+      /// <returns></returns>
+      public static int GetMinWidthForm(Control.ControlCollection controls, int MinWidth=25)
+      {
+         int result = MinWidth;
+         foreach ( Control control in controls )
+         {
+            //if (control.Controls.Count>0)
+            if (control is SplitContainer ||
+                 control is FlowLayoutPanel ||
+                 control is GroupBox ||
+                 control is Panel ||
+                 control is TableLayoutPanel)
+               result = GetMinWidthForm(control.Controls, result);
+            
+            int len = control.Width + control.Left;
+            if (len > result)
+               result = len;
+         }
+         return result;
+      }
       public static List<int> GetListRowsIntInOneColumnTable(DataTable table,
                                                        int ColumnNum = 0,
                                                        bool unique = false,

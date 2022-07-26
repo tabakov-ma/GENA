@@ -14,7 +14,7 @@ using WorkString;
 
 namespace WorkBox
 {
-   public partial class TableCreator : Form
+   public partial class CreatorTable : Form
    {
       public enum TableCreatorTabControl{ CREATOR, DATA}
       DataTable dtTune;
@@ -32,6 +32,7 @@ namespace WorkBox
       bool flagAddRow = false;
       bool VisBottomPanel = false;
       int HeightBottomPanel;
+      int MinWidthForm;
       string NameAddTable;
       string TempNameTabText;
       List<string> lstNameTab;
@@ -46,7 +47,7 @@ namespace WorkBox
       Dictionary<string, string[]> dicRenameType = new Dictionary<string, string[]>();
       Dictionary<string, string[]> dicAddForeignKey = new Dictionary<string, string[]>();
       TuneViewTable tuneViewTable;
-      public TableCreator(Query query, TuneViewTable tuneViewTable, TableCreatorTabControl tab = TableCreatorTabControl.CREATOR, string TabName="")
+      public CreatorTable(Query query, TuneViewTable tuneViewTable, TableCreatorTabControl tab = TableCreatorTabControl.CREATOR, string TabName="")
       {
          InitializeComponent();
          this.query = new Query(query.GetStrConnect());
@@ -85,7 +86,7 @@ namespace WorkBox
       }
       #region FUNCTION
 
-      private void Refresh(string NameTable = null, bool MsgYes=false, bool NewTable = false)
+      private void RefreshData(string NameTable = null, bool MsgYes=false, bool NewTable = false)
       {
          if (NameTable == null) NameTable = cbxNameTab.Text;
          flagProgDataChange = true;
@@ -211,6 +212,9 @@ namespace WorkBox
          ResSave();
          Ctrl.ButtonStar(btnCreate, false);
          flagProgDataChange = false;
+
+         // Минимальная ширина формы
+         MinWidthForm = Ctrl.GetMinWidthForm(this.Controls);
       }
 
 
@@ -261,7 +265,7 @@ namespace WorkBox
          {
             NameAddTable = "";
             Init();
-            Refresh(tbcMain.SelectedTab.Name);
+            RefreshData(tbcMain.SelectedTab.Name);
          }
       }
       private void DoSave()
@@ -286,7 +290,7 @@ namespace WorkBox
                                  ForeignTabCol: new string[] { colName,
                                                             colFTName,
                                                             colFCName }))
-                     Refresh();
+                     RefreshData();
                   dicRenameColumns.Remove(dic.Key);
                   dicRenameType.Remove(dic.Key);
                   dicAddForeignKey.Remove(dic.Key);
@@ -295,23 +299,23 @@ namespace WorkBox
                foreach (var dic in dicRenameColumns)
                {
                   if (!query.RenameColumn(dic.Value[0], dic.Value[1], dic.Key))
-                     Refresh();
+                     RefreshData();
                }
                foreach (var dic in dicRenameType)
                {
                   if (!query.RenameColumnType(dic.Value[0], dic.Key, dic.Value[1]))
-                     Refresh();
+                     RefreshData();
                }
                foreach (var dic in dicAddForeignKey)
                {
                   string[] row = Ctrl.GetListColumnsInOneRowTable(dgvData, dic.Key, GetNumColNull : -2, GetStartCol: 4);
                   if (!query.AddForeignKey(dic.Value[0], dic.Key, row[0], row[1]))
-                     Refresh();
+                     RefreshData();
                }
                foreach (var dic in dicDelColumns)
                {
                   if (!query.DelColumn(dic.Value[0], dic.Key, null,true,true,true))
-                     Refresh();
+                     RefreshData();
                }
                flagAddRow = false;
             }
@@ -333,7 +337,7 @@ namespace WorkBox
       {
          if (tbcMain.SelectedTab == null) return;
          
-         Refresh();
+         RefreshData();
          btnExtProp.Enabled = btnNew.Enabled = btnClear.Enabled = btnRename.Enabled = btnRemove.Enabled = btnCreate.Enabled = tbcMain.SelectedTab.Name == "CREATOR";
          chbOffTuneCol.Enabled = tbxWhere.Enabled = tbcMain.SelectedTab.Name != "CREATOR";
       }
@@ -342,7 +346,7 @@ namespace WorkBox
       {
          if (flagProgDataChange) return;
          NameAddTable = cbxNameTab.Text;
-         Refresh();
+         RefreshData();
          if (VisBottomPanel)
             ReadLinksAndProp();
       }
@@ -421,7 +425,7 @@ namespace WorkBox
 
       private void TableCreator_Shown(object sender, EventArgs e)
       {
-         Refresh();
+         RefreshData();
          stc_H_SplitDist_Litle();
          flagProgDataChange = false;
 
@@ -436,12 +440,14 @@ namespace WorkBox
             //this.cbxNameTab.Text = dtTune.Rows[0]["NameTable"].ToString();
          }
          catch { }
+         //FormWidth();
+         lblTest.Text = "chbOffTuneCol:" + (chbOffTuneCol.Width + chbOffTuneCol.Left).ToString()+" Form.Width:"+this.Width.ToString();
       }
 
       private void btnRead_Click(object sender, EventArgs e)
       {
          Init();
-         Refresh();
+         RefreshData();
          if (VisBottomPanel)
             ReadLinksAndProp();
       }
@@ -473,7 +479,7 @@ namespace WorkBox
             else
             {
                ResSave();
-               Refresh();
+               RefreshData();
             }
          }
       }
@@ -697,7 +703,7 @@ namespace WorkBox
          Ctrl.ButtonStar(btnCreate);
          btnSave.Enabled = false;
          cbxNameTab.SelectAll();
-         Refresh(NewTable: true);
+         RefreshData(NewTable: true);
       }
 
       private void dgvData_ColumnAdded(object sender, DataGridViewColumnEventArgs e)
@@ -708,7 +714,8 @@ namespace WorkBox
       {
          int Width = 120; foreach (DataGridViewColumn column in dgvData.Columns) if (column.Visible) Width = Width + column.Width;
          // Ограничение автоширины формы
-         if (Width < chbOffTuneCol.Location.X + chbOffTuneCol.Width) Width = chbOffTuneCol.Location.X + chbOffTuneCol.Width;
+         //if (Width < chbOffTuneCol.Location.X + chbOffTuneCol.Width) Width = chbOffTuneCol.Location.X + chbOffTuneCol.Width;
+         if (Width < MinWidthForm) Width = MinWidthForm;
          int width = Misc.GetScreenWidth(this);
          if (Width > width) Width = width;
          this.Width = Width;

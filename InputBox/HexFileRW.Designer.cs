@@ -601,6 +601,15 @@ namespace WorkBox
          this.timer1.Interval = 1000;
          this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
          // 
+         // txbPath
+         // 
+         this.txbPath.Dock = System.Windows.Forms.DockStyle.Fill;
+         this.txbPath.Location = new System.Drawing.Point(3, 98);
+         this.txbPath.Name = "txbPath";
+         this.txbPath.Size = new System.Drawing.Size(777, 25);
+         this.txbPath.TabIndex = 2;
+         this.txbPath.Text = "Нажми для выбора HEX-файла";
+         // 
          // HexFileRW
          // 
          this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);

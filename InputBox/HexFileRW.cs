@@ -770,5 +770,16 @@ namespace WorkBox
       {
 
       }
+
+      private void txbPath_TextChanged(object sender, EventArgs e)
+      {
+         OpenFileDialog OPF = new OpenFileDialog();
+         if (OPF.ShowDialog() == DialogResult.OK)
+         {
+            txbPath.Text = OPF.FileName;
+            ReadData(null);
+            GoEdit();
+         }
+      }
    }
 }

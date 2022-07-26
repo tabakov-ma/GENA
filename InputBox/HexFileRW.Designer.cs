@@ -600,6 +600,7 @@ namespace WorkBox
          this.txbPath.Size = new System.Drawing.Size(777, 25);
          this.txbPath.TabIndex = 2;
          this.txbPath.Text = "Нажми для выбора HEX-файла";
+         this.txbPath.TextChanged += new System.EventHandler(this.txbPath_TextChanged);
          // 
          // HexFileRW
          // 

@@ -32,6 +32,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Inform", "Inform", "{978D5468-416D-4AB2-B7E2-75C420A4488E}"
 	ProjectSection(SolutionItems) = preProject
 		..\Information.xlsx = ..\Information.xlsx
+		..\Контакты.xlsx = ..\Контакты.xlsx
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvancedTextEditorCSharp", "..\AdvancedTextEditorCSharp\AdvancedTextEditorCSharp\AdvancedTextEditorCSharp.csproj", "{4A03385F-5834-404B-AC9B-B11BFF3A4E9D}"

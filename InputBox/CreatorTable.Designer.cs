@@ -30,7 +30,7 @@ namespace WorkBox
       private void InitializeComponent()
       {
          this.components = new System.ComponentModel.Container();
-         System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+         System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
          this.tlp_H = new System.Windows.Forms.TableLayoutPanel();
          this.tlp_H1_H = new System.Windows.Forms.TableLayoutPanel();
          this.tlp_H1_H0_V = new System.Windows.Forms.TableLayoutPanel();
@@ -74,7 +74,6 @@ namespace WorkBox
          this.rbxLink = new System.Windows.Forms.RadioButton();
          this.rbxEPtab = new System.Windows.Forms.RadioButton();
          this.rbxEPcol = new System.Windows.Forms.RadioButton();
-         this.lblTest = new System.Windows.Forms.Label();
          this.tlp_H.SuspendLayout();
          this.tlp_H1_H.SuspendLayout();
          this.tlp_H1_H0_V.SuspendLayout();
@@ -372,13 +371,11 @@ namespace WorkBox
          // 
          // tlp_H0_V
          // 
-         this.tlp_H0_V.ColumnCount = 3;
+         this.tlp_H0_V.ColumnCount = 2;
          this.tlp_H0_V.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
          this.tlp_H0_V.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-         this.tlp_H0_V.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
          this.tlp_H0_V.Controls.Add(this.tbcMain, 0, 0);
          this.tlp_H0_V.Controls.Add(this.lblHelp, 1, 0);
-         this.tlp_H0_V.Controls.Add(this.lblTest, 2, 0);
          this.tlp_H0_V.Dock = System.Windows.Forms.DockStyle.Fill;
          this.tlp_H0_V.Location = new System.Drawing.Point(3, 3);
          this.tlp_H0_V.Name = "tlp_H0_V";
@@ -427,7 +424,7 @@ namespace WorkBox
          // 
          this.lblHelp.AutoSize = true;
          this.lblHelp.Dock = System.Windows.Forms.DockStyle.Right;
-         this.lblHelp.Location = new System.Drawing.Point(203, 0);
+         this.lblHelp.Location = new System.Drawing.Point(944, 0);
          this.lblHelp.Name = "lblHelp";
          this.lblHelp.Size = new System.Drawing.Size(37, 29);
          this.lblHelp.TabIndex = 10;
@@ -562,8 +559,8 @@ namespace WorkBox
          this.dgvProp.MultiSelect = false;
          this.dgvProp.Name = "dgvProp";
          this.dgvProp.RowHeadersWidth = 51;
-         dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
-         this.dgvProp.RowsDefaultCellStyle = dataGridViewCellStyle1;
+         dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+         this.dgvProp.RowsDefaultCellStyle = dataGridViewCellStyle2;
          this.dgvProp.RowTemplate.Height = 24;
          this.dgvProp.Size = new System.Drawing.Size(978, 119);
          this.dgvProp.TabIndex = 1;
@@ -681,16 +678,6 @@ namespace WorkBox
          this.rbxEPcol.UseVisualStyleBackColor = false;
          this.rbxEPcol.Click += new System.EventHandler(this.rbx_Click);
          // 
-         // lblTest
-         // 
-         this.lblTest.AutoSize = true;
-         this.lblTest.Location = new System.Drawing.Point(246, 0);
-         this.lblTest.Name = "lblTest";
-         this.lblTest.Size = new System.Drawing.Size(46, 17);
-         this.lblTest.TabIndex = 11;
-         this.lblTest.Text = "label2";
-         this.lblTest.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-         // 
          // CreatorTable
          // 
          this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -782,6 +769,5 @@ namespace WorkBox
       private System.Windows.Forms.GroupBox groupBox1;
       private System.Windows.Forms.TextBox tbxWhere;
       private System.Windows.Forms.Button btnExtProp;
-      private System.Windows.Forms.Label lblTest;
    }
 }

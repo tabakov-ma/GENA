@@ -440,8 +440,6 @@ namespace WorkBox
             //this.cbxNameTab.Text = dtTune.Rows[0]["NameTable"].ToString();
          }
          catch { }
-         //FormWidth();
-         lblTest.Text = "chbOffTuneCol:" + (chbOffTuneCol.Width + chbOffTuneCol.Left).ToString()+" Form.Width:"+this.Width.ToString();
       }
 
       private void btnRead_Click(object sender, EventArgs e)
